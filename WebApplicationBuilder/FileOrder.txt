@@ -1,0 +1,11 @@
+Change the content root, application name, and environment.linq
+Add configuration providers.linq
+Read configuration.linq
+Add logging providers.linq
+Add services.linq
+Customize the IHostBuilder.linq
+Customize the IWebHostBuilder.linq
+Change the web root.linq
+Custom dependency injection (DI) container.linq
+Add Middleware.linq
+Developer exception page.linq

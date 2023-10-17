@@ -1,0 +1,16 @@
+Optional parameters
+Parameter binding sources.linq
+Post route handler uses a binding source of body.linq
+Read request data directly from the request.linq
+Explicit Parameter Binding.linq
+Parameter binding with dependency injection.linq
+Special types.linq
+Bind the request body as a Stream or PipeReader.linq
+File uploads using IFormFile and IFormFileCollection.linq
+Bind arrays and string values from headers and query strings.linq
+Custom Binding - TryParse.linq
+Custom binding - BindAsync.linq
+Configure JSON deserialization options globally.linq
+Configure JSON deserialization options for an endpoint.linq
+Read the request body.linq
+Customizing results.linq

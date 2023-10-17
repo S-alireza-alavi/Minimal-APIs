@@ -1,0 +1,11 @@
+String return values.linq
+JSON return values.linq
+Return TypedResults.linq
+IResult return values.linq
+IResult return values - JSON.linq
+IResult return values - Custom status code.linq
+IResult return values - Text.linq
+IResult return values - Stream.linq
+IResult return values - Redirect.linq
+IResult return values - File.linq
+myfile.txt
