@@ -14,8 +14,8 @@ void Main()
 	var configFilePath = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), "appsettings.json");
 	builder.Configuration.AddJsonFile(configFilePath);
 
-	builder.Configuration["Kestrel:Certificates:Default:Path"] = "cert.pem".Dump();
-	builder.Configuration["Kestrel:Certificates:Default:KeyPath"] = "key.pem".Dump();
+	//builder.Configuration["Kestrel:Certificates:Default:Path"] = "cert.pem".Dump();
+	//builder.Configuration["Kestrel:Certificates:Default:KeyPath"] = "key.pem".Dump();
 
 	var app = builder.Build();
 
