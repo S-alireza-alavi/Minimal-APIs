@@ -16,7 +16,8 @@ void Main()
 
 	app.MapPost("/upload", async (IFormFile file) => 
 	{
-		var tempFile = Path.GetTempFileName();
+		var tempFile = Path.GetTempFileName().Dump("tempFile");
+		file.Dump("fileDump");
 		app.Logger.LogInformation(tempFile);
 		using var stream = File.OpenWrite(tempFile);
 		await file.CopyToAsync(stream);
@@ -24,9 +25,11 @@ void Main()
 
 	app.MapPost("/upload_many", async (IFormFileCollection myFiles) => 
 	{
+		myFiles.Dump("Files");
 		foreach (var file in myFiles)
 		{
-			var tempFile = Path.GetTempFileName();
+			var tempFile = Path.GetTempFileName().Dump("tempFile2");
+			file.Dump("file");
 			app.Logger.LogInformation(tempFile);
 			using var stream = File.OpenWrite(tempFile);
 			await file.CopyToAsync(stream);
