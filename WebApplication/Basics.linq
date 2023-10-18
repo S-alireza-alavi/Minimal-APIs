@@ -3,6 +3,8 @@
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
 
+using static MyExtensions;
+
 void Main()
 {
 	//UnComment one of these codes to run...
@@ -12,7 +14,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello World!".Dump("WebApplicationBuilder result"));
 
-	Process.Start(new ProcessStartInfo("curl", "http://localhost:5000") { CreateNoWindow = true });
+	MyExtensions.ProcessStart();
 
 	app.Run();
 
