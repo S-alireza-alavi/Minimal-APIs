@@ -6,6 +6,7 @@ Read the port from environment.linq
 Listen on all interfaces.linq
 Specify HTTPS with development certificate.linq
 Specify the custom certificate via configuration.linq
+Use the certificate APIs.linq
 Configuration.linq
 Logging.linq
 Access the Dependency Injection (DI) container.linq
