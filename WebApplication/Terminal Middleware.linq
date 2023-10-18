@@ -16,11 +16,9 @@ void Main()
 	app.UseRouting();
 	
 	//Why this line Dupmed in the other system but not this one?
-	app.MapGet("/", () => "Hello World!");
+	app.MapGet("/", () => "Hello World!".Dump("result"));
 	
 	app.UseEndpoints(e => { });
-	
-	"App terminated".Dump("Simulated 404 status code");
 
 	MyExtensions.ProcessStart();
 
@@ -29,4 +27,6 @@ void Main()
 		context.Response.StatusCode = 404;
 		return Task.CompletedTask;
 	});
+	
+	app.Run();
 }
