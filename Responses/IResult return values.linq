@@ -1,4 +1,5 @@
 <Query Kind="Program">
+  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\MyExtensions.Core3.dll</Reference>
   <NuGetReference>Microsoft.EntityFrameworkCore</NuGetReference>
   <NuGetReference>Microsoft.EntityFrameworkCore.InMemory</NuGetReference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
@@ -6,8 +7,6 @@
   <Namespace>Microsoft.EntityFrameworkCore</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
-
-using static MyExtensions;
 
 void Main()
 {

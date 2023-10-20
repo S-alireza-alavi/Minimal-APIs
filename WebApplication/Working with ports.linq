@@ -1,4 +1,5 @@
 <Query Kind="Program">
+  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
@@ -10,7 +11,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello World!").Dump("result");
 
-	Process.Start(new ProcessStartInfo("curl", "http://localhost:3000") { CreateNoWindow = true });
+	MyExtensions.ProcessStart();
 
 	app.Run("http://localhost:3000".Dump("Ran on 3000 port"));
 }

@@ -1,7 +1,8 @@
 <Query Kind="Program">
+  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
-  <Namespace>Microsoft.Extensions.DependencyInjection</Namespace>
   <Namespace>Microsoft.AspNetCore.Mvc</Namespace>
+  <Namespace>Microsoft.Extensions.DependencyInjection</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
 

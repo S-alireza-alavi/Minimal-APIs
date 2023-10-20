@@ -1,20 +1,22 @@
 <Query Kind="Program">
+  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\MyExtensions.Core3.dll</Reference>
   <NuGetReference>Microsoft.EntityFrameworkCore</NuGetReference>
   <NuGetReference>Microsoft.EntityFrameworkCore.InMemory</NuGetReference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
-  <Namespace>Microsoft.EntityFrameworkCore</Namespace>
   <Namespace>Microsoft.Extensions.Primitives</Namespace>
   <Namespace>Microsoft.AspNetCore.Http</Namespace>
   <Namespace>Microsoft.AspNetCore.Mvc</Namespace>
+  <Namespace>Microsoft.EntityFrameworkCore</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
-
-using static MyExtensions;
 
 void Main()
 {
 	var builder = WebApplication.CreateBuilder();
 	var app = builder.Build();
+	
+	var db = new TodoDb();
+	db.Database.EnsureCreated();
 
 	// Use a tool like Postman to pass the following data to the '/todoitems/batch' endpoint:
 	/*
@@ -74,7 +76,7 @@ void Main()
 	$"tag1: {names[0]} , tag2: {names[1]}, tag3: {names[2]}");
 
 	// GET /todoitems/tags?tags=home&tags=work
-	app.MapGet("/todoitems/tags", async (Tag[] tags, TodoDb db) =>
+	app.MapGet("/todoitems/tags", async (Tag[] tags) =>
 	{
 		return await db.Todos
 			.Where(t => tags.Select(i => i.Name).Contains(t.Tag.Name))
@@ -82,7 +84,7 @@ void Main()
 	});
 
 	// GET /todoitems/query-string-ids?ids=1&ids=3
-	app.MapGet("todoitems/query-string-ids", async (int[] ids, TodoDb db) =>
+	app.MapGet("todoitems/query-string-ids", async (int[] ids) =>
 	{
 		return await db.Todos
 		.Where(t => ids.Contains(t.Id))
@@ -91,7 +93,7 @@ void Main()
 
 	// To test the preceding code, add the following endpoint to populate the database with Todo items:
 	// POST /todoitems/batch
-	app.MapPost("/todoitems/batch", async (Todo[] todos, TodoDb db) =>
+	app.MapPost("/todoitems/batch", async (Todo[] todos) =>
 	{
 		await db.Todos.AddRangeAsync(todos);
 		await db.SaveChangesAsync();
@@ -101,7 +103,7 @@ void Main()
 
 	// GET /todoitems/header-ids
 	// The keys of the headers should all be X-Todo-Id with different values
-	app.MapGet("/todoitems/header-ids", async ([FromHeader(Name = "X-Todo-Id")] int[] ids, TodoDb db) =>
+	app.MapGet("/todoitems/header-ids", async ([FromHeader(Name = "X-Todo-Id")] int[] ids) =>
 	{
 		return await db.Todos
 			.Where(t => ids.Contains(t.Id))
