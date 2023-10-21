@@ -17,3 +17,4 @@ Configure JSON deserialization options for an endpoint.linq
 Read the request body.linq
 Customizing results.linq
 File uploads using IFormFile and IFormFileCollection-2.linq
+Parameter binding for argument lists with [AsParameters].linq

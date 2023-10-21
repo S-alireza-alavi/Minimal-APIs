@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\MyExtensions.Core3.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <NuGetReference>Microsoft.EntityFrameworkCore</NuGetReference>
   <NuGetReference>Microsoft.EntityFrameworkCore.InMemory</NuGetReference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
@@ -72,7 +72,7 @@ void Main()
 
 	// Bind to StringValues.
 	// GET /tags3?names=john&names=jack&names=jane
-	app.MapGet("tags3", (StringValues names) =>
+	app.MapGet("/tags3", (StringValues names) =>
 	$"tag1: {names[0]} , tag2: {names[1]}, tag3: {names[2]}");
 
 	// GET /todoitems/tags?tags=home&tags=work
@@ -98,6 +98,8 @@ void Main()
 		await db.Todos.AddRangeAsync(todos);
 		await db.SaveChangesAsync();
 
+		"Seed data has been added.".Dump("SeedData");
+		
 		return Results.Ok(todos);
 	});
 
