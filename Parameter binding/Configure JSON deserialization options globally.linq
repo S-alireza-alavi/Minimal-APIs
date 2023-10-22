@@ -37,3 +37,14 @@ class Todo
 	public string? NameField;
 	public bool IsComplete { get; set; }
 }
+// If the request body contains the following JSON:
+//
+// {"nameField":"Walk dog", "isComplete":false}
+//
+// The endpoint returns the following JSON:
+//
+// {
+//    "name":"Walk dog",
+//    "nameField":"Walk dog",
+//    "isComplete":false
+// }
