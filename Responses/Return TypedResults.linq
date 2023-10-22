@@ -8,11 +8,11 @@
 void Main()
 {
 	var app = WebApplication.Create();
-	
-	app.MapGet("/hello", () => TypedResults.Ok(new Message() {  Text = "Hello World!" }));
-	
+
+	app.MapGet("/hello", () => TypedResults.Ok("Hello World!".Dump("Return TypedResults")));
+
 	MyExtensions.ProcessStart();
-	
+
 	app.Run();
 }
 
