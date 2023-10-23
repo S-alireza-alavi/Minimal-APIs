@@ -9,3 +9,5 @@ Change the web root.linq
 Custom dependency injection (DI) container.linq
 Add Middleware.linq
 Developer exception page.linq
+
+appsettingsReadConfigurationQuery.json

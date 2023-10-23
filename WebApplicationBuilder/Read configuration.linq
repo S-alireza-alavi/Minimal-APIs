@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\MyExtensions.Core3.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <Namespace>Microsoft.Extensions.Configuration</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
@@ -17,7 +17,7 @@ void Main()
 	
 	var builder = WebApplication.CreateBuilder();
 	
-	var appsettingsPath = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), "appsettingsforhello.json");
+	var appsettingsPath = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), "appsettingsReadConfigurationQuery.json");
 	
 	builder.Configuration.AddJsonFile(appsettingsPath.Dump("Path"));
 
