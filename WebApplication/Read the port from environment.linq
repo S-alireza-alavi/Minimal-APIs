@@ -6,14 +6,17 @@
 
 void Main()
 {
+	//If you want to test this query on a different port uncomment the following line and change the second parameter value as required
+	//Environment.SetEnvironmentVariable("PORT", "4000");
+	
 	//The following code reads the port from the environment:
 	var app = WebApplication.Create();
 
-	var port = Environment.GetEnvironmentVariable("PORT") ?? "3000";
+	var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
 
 	app.MapGet("/", () => "Hello World".Dump("result"));
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.ProcessStart(4000);
 
 	app.Run($"http://localhost:{port}".Dump("Port:"));
 }
