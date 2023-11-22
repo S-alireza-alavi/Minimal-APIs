@@ -15,7 +15,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello World!".Dump("WebApplicationBuilder result"));
 
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 
@@ -24,7 +24,7 @@ void Main()
 	//
 	//	app.MapGet("/", () => "Hello World!".Dump("WebApplication result"));
 	//
-	//	Process.Start(new ProcessStartInfo("curl", "http://localhost:5000") { CreateNoWindow = true });
+	//	Process.Start(new SendRequestToServerInfo("curl", "http://localhost:5000") { CreateNoWindow = true });
 	//
 	//	app.Run();
 }

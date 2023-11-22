@@ -39,7 +39,7 @@ void Main()
    .Produces<Todo>(StatusCodes.Status200OK.Dump("Found"))
    .Produces(StatusCodes.Status404NotFound.Dump("Not found"));
    
-   MyExtensions.ProcessStart();
+   MyExtensions.SendRequestToServer();
    
    app.Run();
 }

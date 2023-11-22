@@ -20,7 +20,7 @@ void Main()
 
 	app.MapGet("/products", (int pageNumber) => $"Requesting page {pageNumber}".Dump("result"));
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 	
 	app.Run();
 }

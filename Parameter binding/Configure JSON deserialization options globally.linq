@@ -26,7 +26,7 @@ void Main()
 		return todo;
 	});
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 	
 	app.Run();
 }

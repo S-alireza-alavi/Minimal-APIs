@@ -11,7 +11,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello World!".Dump("result"));
 
-	MyExtensions.ProcessStart(3000);
+	MyExtensions.SendRequestToServer(3000);
 
 	app.Run("http://localhost:3000".Dump("Run on 3000 port"));
 }

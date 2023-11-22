@@ -22,7 +22,7 @@ void Main()
 
 	app.MapGet("/",() => "Hello World");
 
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

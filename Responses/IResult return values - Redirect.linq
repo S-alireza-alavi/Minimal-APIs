@@ -13,7 +13,7 @@ void Main()
 
 	app.MapGet("/old-path", () => Results.Redirect("/new-path".Dump("Redirected to new-path from old-path")));
 
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

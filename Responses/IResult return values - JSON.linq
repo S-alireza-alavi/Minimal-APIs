@@ -11,7 +11,7 @@ void Main()
 
 	app.MapGet("/hello",() => Results.Json(new { Message = "Hello World" }.Dump("JSON type Hello World!")));
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 	
 	app.Run();
 }

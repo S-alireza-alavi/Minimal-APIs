@@ -22,7 +22,7 @@ void Main()
 	connectionString.Dump("ConnectionString");
 	someSetting.Dump("SomeSetting");
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	//When the below line uncommented, it will throw FileNotFoundException:
 	//Could not find file 'C:\Users\User\Documents\LINQPad Queries\Minimal APIs quick reference\WebApplicationBuilder\cert.pem'.

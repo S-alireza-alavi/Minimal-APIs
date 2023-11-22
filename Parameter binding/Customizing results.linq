@@ -21,7 +21,7 @@ void Main()
     	</body>
 	</html>").Dump("result"));
 
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

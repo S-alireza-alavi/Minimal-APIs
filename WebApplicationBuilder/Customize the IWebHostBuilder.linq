@@ -17,7 +17,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello HTTP.sys".Dump("result"));
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

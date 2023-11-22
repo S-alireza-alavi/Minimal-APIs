@@ -15,7 +15,7 @@ void Main()
 	app.MapGet("/users/{userId}/books/{bookId}",
 		(int userId, int bookId) => $"The user id is {userId} and book id is {bookId}".Dump("Result"));
 
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

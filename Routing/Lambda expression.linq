@@ -17,7 +17,7 @@ void Main()
 	
 	handler().Dump("Result of lambda variable");
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

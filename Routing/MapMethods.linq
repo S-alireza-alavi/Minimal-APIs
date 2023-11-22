@@ -17,7 +17,7 @@ void Main()
 	app.MapMethods("/options-or-head", new[] { "OPTIONS", "HEAD" },
 	() => "This is an options or head request".Dump("Map Methods"));
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 	
 	app.Run();
 }

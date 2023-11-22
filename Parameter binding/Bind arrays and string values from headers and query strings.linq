@@ -112,7 +112,7 @@ void Main()
 			.ToListAsync().Dump();
 	});
 
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

@@ -13,7 +13,7 @@ void Main()
 
 	app.MapGet("/", () => handler.Hello().Dump("Result"));
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

@@ -19,7 +19,7 @@ void Main()
 	
 	app.UseEndpoints(e => { });
 
-	MyExtensions.ProcessStart(url: "http://localhost:5000/A");
+	MyExtensions.SendRequestToServer(url: "http://localhost:5000/A");
 
 	app.Run(context =>
 	{

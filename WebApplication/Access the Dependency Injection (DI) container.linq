@@ -23,7 +23,7 @@ void Main()
 		sampleService.DoSomething();
 	}
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

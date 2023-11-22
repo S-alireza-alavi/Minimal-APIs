@@ -11,7 +11,7 @@ void Main()
 	
 	app.MapGet("/download", () => Results.File("myfile.txt"));
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 	
 	app.Run();
 }

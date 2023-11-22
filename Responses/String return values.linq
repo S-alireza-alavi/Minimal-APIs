@@ -10,7 +10,7 @@ void Main()
 	
 	app.MapGet("/hello", () => "Hello World".Dump("String type return value"));
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 	
 	app.Run();
 }

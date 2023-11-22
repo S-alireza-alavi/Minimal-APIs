@@ -7,7 +7,7 @@
 void Main()
 {
 	//Run this to send the request with HTTPS
-	//Process.Start(new ProcessStartInfo("dotnet", "dev-certs https") { CreateNoWindow = true });
+	//Process.Start(new SendRequestToServerInfo("dotnet", "dev-certs https") { CreateNoWindow = true });
 	//For more information on the development certificate, <see https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-7.0#trust/>
 	var app = WebApplication.Create();
 
@@ -15,7 +15,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello World".Dump("Run on HTTPS"));
 	
-	MyExtensions.ProcessStart(url: "https://localhost:5000");
+	MyExtensions.SendRequestToServer(url: "https://localhost:5000");
 
 	app.Run();
 }

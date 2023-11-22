@@ -15,7 +15,7 @@ void Main()
 
 	var app = builder.Build();
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

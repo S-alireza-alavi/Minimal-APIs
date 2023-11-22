@@ -29,7 +29,7 @@ void Main()
 
 	app.MapGet("/",() => message);
 
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

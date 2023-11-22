@@ -16,7 +16,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello JSON console!".Dump("JSON console"));
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

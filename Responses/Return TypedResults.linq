@@ -11,7 +11,7 @@ void Main()
 
 	app.MapGet("/hello", () => TypedResults.Ok("Hello World!".Dump("Return TypedResults")));
 
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

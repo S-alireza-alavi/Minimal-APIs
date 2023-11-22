@@ -26,7 +26,7 @@ void Main()
 		var person = await request.ReadFromJsonAsync<Person>();
 	});
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 	
 	app.Run();
 }

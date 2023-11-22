@@ -20,7 +20,7 @@ void Main()
 		jsonData.Dump("JSON data");
 	});
 
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

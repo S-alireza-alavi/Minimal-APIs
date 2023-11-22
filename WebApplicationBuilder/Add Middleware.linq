@@ -16,7 +16,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello World!".Dump("UseFileServer middleware"));
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

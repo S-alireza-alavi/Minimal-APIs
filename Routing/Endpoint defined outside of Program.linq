@@ -14,7 +14,7 @@ void Main()
 
 	TodoEndpoints.Map(app);
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

@@ -14,7 +14,7 @@ void Main()
 
 	app.MapGet("/posts/{*rest}", (string rest) => $"Routing to {rest}".Dump($"/Result of using '{rest}' as a parameter"));
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

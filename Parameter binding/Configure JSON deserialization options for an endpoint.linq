@@ -33,7 +33,7 @@ void Main()
 		}
 	});
 
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

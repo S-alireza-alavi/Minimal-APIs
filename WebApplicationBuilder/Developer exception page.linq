@@ -18,7 +18,7 @@ void Main()
 		throw new InvalidOperationException("Oops, the '/' route has thrown an exception.".Dump("Developer Exception"));
 	});
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }

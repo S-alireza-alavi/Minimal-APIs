@@ -14,7 +14,7 @@ void Main()
 
 	app.MapPost("/", (Person person) => { "It must be sent with POST method".Dump(); });
 	
-	MyExtensions.ProcessStart();
+	MyExtensions.SendRequestToServer();
 	
 	app.Run();
 }
