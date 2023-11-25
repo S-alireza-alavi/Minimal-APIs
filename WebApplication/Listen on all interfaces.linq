@@ -1,5 +1,5 @@
 <Query Kind="Program">
-<Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\Extensions.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">D:\Repositories\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
@@ -10,52 +10,52 @@ void Main()
 	//Uncomment the method you want to execute.
 
 	// Method 1: http://*:5000
-	 RunOnAllInterfaces();
+	RunOnAllInterfaces();
 
 	// Method 2: http://+:5000
 	// RunOnPlus();
 
 	// Method 3: http://0.0.0.0:5000
 	// RunOnSpecificIpAddress();
-	
+
 }
 
 void RunOnAllInterfaces()
 {
 	var app = WebApplication.Create();
-	
+
 	app.Urls.Add("http://*:5000");
-	
+
 	app.MapGet("/", () => "Hello World".Dump("Result on http://*:5000"));
-	
+
 	MyExtensions.SendRequestToServer();
-	
+
 	app.Run();
 }
 
 void RunOnPlus()
 {
-		var app = WebApplication.Create();
-	
-		app.Urls.Add("http://+:5000");
-	
-		app.MapGet("/", () => "Hello World".Dump("Result on http://+:5000"));
-		
-		MyExtensions.SendRequestToServer();
-	
-		app.Run();
+	var app = WebApplication.Create();
+
+	app.Urls.Add("http://+:5000");
+
+	app.MapGet("/", () => "Hello World".Dump("Result on http://+:5000"));
+
+	MyExtensions.SendRequestToServer();
+
+	app.Run();
 }
 
 void RunOnSpecificIpAddress()
 {
-		var app = WebApplication.Create();
-	
-		app.Urls.Add("http://0.0.0.0:5000");
-	
-		app.MapGet("/", () => "Hello World".Dump("Result on http://0.0.0.0:5000"));
-		
-		MyExtensions.SendRequestToServer();
-	
-		app.Run();
+	var app = WebApplication.Create();
+
+	app.Urls.Add("http://0.0.0.0:5000");
+
+	app.MapGet("/", () => "Hello World".Dump("Result on http://0.0.0.0:5000"));
+
+	MyExtensions.SendRequestToServer();
+
+	app.Run();
 }
 

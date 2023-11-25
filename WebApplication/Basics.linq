@@ -1,5 +1,5 @@
 <Query Kind="Program">
-<Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\MyExtensions.Core3.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">D:\Repositories\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <Namespace>Microsoft.AspNetCore.Http</Namespace>
   <Namespace>Microsoft.Extensions.Logging</Namespace>
@@ -24,7 +24,7 @@ void Main()
 	//
 	//	app.MapGet("/", () => "Hello World!".Dump("WebApplication result"));
 	//
-	//	Process.Start(new SendRequestToServerInfo("curl", "http://localhost:5000") { CreateNoWindow = true });
+	//	MyExtensions.SendRequestToServer();
 	//
 	//	app.Run();
 }

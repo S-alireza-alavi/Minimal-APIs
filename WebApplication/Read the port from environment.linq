@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\Extensions.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">D:\Repositories\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
@@ -16,7 +16,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello World".Dump("result"));
 	
-	MyExtensions.SendRequestToServer(4000);
+	MyExtensions.SendRequestToServer(int.Parse(port));
 
 	app.Run($"http://localhost:{port}".Dump("Port:"));
 }

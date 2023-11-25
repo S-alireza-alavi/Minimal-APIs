@@ -1,5 +1,5 @@
 <Query Kind="Program">
-<Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\MyExtensions.Core3.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">D:\Repositories\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
@@ -16,7 +16,7 @@ void Main()
 
 	foreach (var url in app.Urls)
 	{
-		MyExtensions.SendRequestToServer();
+		MyExtensions.SendRequestToServer(3000);
 	}
 
 	"I can run on both 3000 and 4000 ports!".Dump("Multiple ports running");
