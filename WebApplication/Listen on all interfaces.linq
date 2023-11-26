@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <Reference Relative="..\MyExtensions.Core3.dll">D:\Repositories\Minimal-APIs\MyExtensions.Core3.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
@@ -28,7 +28,7 @@ void RunOnAllInterfaces()
 
 	app.MapGet("/", () => "Hello World".Dump("Result on http://*:5000"));
 
-	MyExtensions.SendRequestToServer();
+	Curl.GET();
 
 	app.Run();
 }
@@ -41,7 +41,7 @@ void RunOnPlus()
 
 	app.MapGet("/", () => "Hello World".Dump("Result on http://+:5000"));
 
-	MyExtensions.SendRequestToServer();
+	Curl.GET();
 
 	app.Run();
 }
@@ -54,7 +54,7 @@ void RunOnSpecificIpAddress()
 
 	app.MapGet("/", () => "Hello World".Dump("Result on http://0.0.0.0:5000"));
 
-	MyExtensions.SendRequestToServer();
+	Curl.GET();
 
 	app.Run();
 }

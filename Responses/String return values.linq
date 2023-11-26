@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\Extensions.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
@@ -10,7 +10,7 @@ void Main()
 	
 	app.MapGet("/hello", () => "Hello World".Dump("String type return value"));
 	
-	MyExtensions.SendRequestToServer();
+	Curl.GET();
 	
 	app.Run();
 }

@@ -1,5 +1,5 @@
 <Query Kind="Program">
-<Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\MyExtensions.Core3.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <Namespace>System.Threading.Tasks</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
@@ -19,7 +19,7 @@ void Main()
 	
 	app.UseEndpoints(e => { });
 
-	MyExtensions.SendRequestToServer(url: "http://localhost:5000/A");
+	Curl.GET(url: "http://localhost:5000/A");
 
 	app.Run(context =>
 	{

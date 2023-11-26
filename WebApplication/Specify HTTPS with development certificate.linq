@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <Reference Relative="..\MyExtensions.Core3.dll">D:\Repositories\Minimal-APIs\MyExtensions.Core3.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
@@ -15,7 +15,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello World".Dump("Run on HTTPS"));
 	
-	MyExtensions.SendRequestToServer(url: "https://localhost:5000");
+	Curl.GET(url: "https://localhost:5000");
 
 	app.Run();
 }

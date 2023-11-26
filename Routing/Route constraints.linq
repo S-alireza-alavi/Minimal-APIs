@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\Extensions.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <NuGetReference>Microsoft.EntityFrameworkCore</NuGetReference>
   <NuGetReference>Microsoft.EntityFrameworkCore.InMemory</NuGetReference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
@@ -31,7 +31,7 @@ void Main()
 	app.MapGet("/todos/{text}", (string text) => db.Todos.Where(t => t.Name.Contains(text)).ToList().Dump("Searched by Name"));
 	app.MapGet("/posts/{slug:regex(^[a-z0-9_-]+$)}", (string slug) => $"Post {slug}".Dump("Searched by Regex"));
 
-	MyExtensions.SendRequestToServer();
+	Curl.GET();
 
 	app.Run();
 }

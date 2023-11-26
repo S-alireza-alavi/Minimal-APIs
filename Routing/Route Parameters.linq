@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <Reference Relative="..\MyExtensions.Core3.dll">D:\Repositories\Minimal-APIs\MyExtensions.Core3.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
@@ -15,7 +15,7 @@ void Main()
 	app.MapGet("/users/{userId}/books/{bookId}",
 		(int userId, int bookId) => $"The user id is {userId} and book id is {bookId}".Dump("Result"));
 
-	MyExtensions.SendRequestToServer(url: "http://localhost:5000/users/1/books/5");
+	Curl.GET(url: "http://localhost:5000/users/1/books/5");
 
 	app.Run();
 }
