@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\Extensions.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">D:\Repositories\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
@@ -14,7 +14,7 @@ void Main()
 
 	app.MapGet("/posts/{*rest}", (string rest) => $"Routing to {rest}".Dump($"/Result of using '{rest}' as a parameter"));
 	
-	MyExtensions.SendRequestToServer();
+	MyExtensions.SendRequestToServer(url: "http://localhost:5000/posts/parameter");
 
 	app.Run();
 }

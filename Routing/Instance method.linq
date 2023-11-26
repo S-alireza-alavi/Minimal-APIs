@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\Extensions.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">D:\Repositories\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
@@ -12,13 +12,13 @@ void Main()
 	var handler = new HelloHandler();
 
 	app.MapGet("/", () => handler.Hello().Dump("Result"));
-	
+
 	MyExtensions.SendRequestToServer();
 
 	app.Run();
 }
 
-	class HelloHandler
+class HelloHandler
 {
 	public string Hello()
 	{

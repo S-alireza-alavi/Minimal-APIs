@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\MyExtensions.Core3.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">D:\Repositories\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <Namespace>Microsoft.AspNetCore.Routing</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
@@ -17,7 +17,7 @@ void Main()
 	app.MapGet("/", (LinkGenerator linker) =>
 			$"The link to the hello route is {linker.GetPathByName("hi", values: null)}".Dump("Link generated"));
 
-	MyExtensions.SendRequestToServer();
+	MyExtensions.SendRequestToServer(url: "http://localhost:5000/hello");
 
 	app.Run();
 }
