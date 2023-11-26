@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\Extensions.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">D:\Repositories\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
@@ -13,9 +13,26 @@ void Main()
 
 	// Setup the file server to serve static files.
 	app.UseFileServer();
-
-	app.MapGet("/", () => "Hello World!".Dump("UseFileServer middleware"));
 	
+	var currentDirectory = Path.GetDirectoryName(Util.CurrentQueryPath);
+	var fileName = "FileServer.txt";
+	var filePath = Path.Combine(currentDirectory, fileName);
+
+	app.MapGet("/", () =>
+    {
+		if (File.Exists(filePath))
+		{
+			var fileContents = File.ReadAllText(filePath);
+			fileContents.Dump("Contents of Static File");
+			return fileContents;
+		}
+		else
+		{
+			"Static file not found.".Dump();
+			return "Static file not found.";
+		}
+	});
+
 	MyExtensions.SendRequestToServer();
 
 	app.Run();

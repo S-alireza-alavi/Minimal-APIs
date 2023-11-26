@@ -16,7 +16,9 @@ void Main()
 
 	foreach (var url in app.Urls)
 	{
-		MyExtensions.SendRequestToServer(3000);
+		var uri = new Uri(url);
+		var port = uri.Port;
+		MyExtensions.SendRequestToServer(port);
 	}
 
 	"I can run on both 3000 and 4000 ports!".Dump("Multiple ports running");

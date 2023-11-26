@@ -1,5 +1,5 @@
 <Query Kind="Program">
-<Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal APIs quick reference\MyExtensions.Core3.dll</Reference>
+  <Reference Relative="..\MyExtensions.Core3.dll">D:\Repositories\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <Namespace>Microsoft.Extensions.Configuration</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
@@ -9,7 +9,7 @@ void Main()
 {
 	//The following sample adds the INI configuration provider:
 	Environment.CurrentDirectory = Path.GetDirectoryName(Util.CurrentQueryPath);
-	
+
 	var builder = WebApplication.CreateBuilder();
 
 	builder.Configuration.AddIniFile("appsettings.conf");
@@ -21,11 +21,8 @@ void Main()
 
 	connectionString.Dump("ConnectionString");
 	someSetting.Dump("SomeSetting");
-	
+
 	MyExtensions.SendRequestToServer();
 
-	//When the below line uncommented, it will throw FileNotFoundException:
-	//Could not find file 'C:\Users\User\Documents\LINQPad Queries\Minimal APIs quick reference\WebApplicationBuilder\cert.pem'.
-
-	//app.Run();
+	app.Run();
 }
