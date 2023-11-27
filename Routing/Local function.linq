@@ -13,7 +13,7 @@ void Main()
 
 	app.MapGet("/", LocalFunction);
 	
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }

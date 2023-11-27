@@ -27,7 +27,7 @@ void Main()
 
 	app.MapGet("/", () => message.Dump("Message"));
 
-	Curl.GET();
+	curl.GET();
 	
 	app.Run();
 }

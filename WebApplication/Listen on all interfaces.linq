@@ -28,7 +28,7 @@ void RunOnAllInterfaces()
 
 	app.MapGet("/", () => "Hello World".Dump("Result on http://*:5000"));
 
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }
@@ -41,7 +41,7 @@ void RunOnPlus()
 
 	app.MapGet("/", () => "Hello World".Dump("Result on http://+:5000"));
 
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }
@@ -54,7 +54,7 @@ void RunOnSpecificIpAddress()
 
 	app.MapGet("/", () => "Hello World".Dump("Result on http://0.0.0.0:5000"));
 
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }

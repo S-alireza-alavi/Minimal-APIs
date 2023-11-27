@@ -11,7 +11,7 @@ void Main()
 	
 	app.MapGet("/text", () => Results.Text("This is some text".Dump("Result")));
 	
-	Curl.GET();
+	curl.GET();
 	
 	app.Run();
 }

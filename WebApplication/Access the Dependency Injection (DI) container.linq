@@ -23,7 +23,7 @@ void Main()
 		sampleService.DoSomething();
 	}
 	
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }

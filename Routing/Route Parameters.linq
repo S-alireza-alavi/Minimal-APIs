@@ -15,7 +15,7 @@ void Main()
 	app.MapGet("/users/{userId}/books/{bookId}",
 		(int userId, int bookId) => $"The user id is {userId} and book id is {bookId}".Dump("Result"));
 
-	Curl.GET(url: "http://localhost:5000/users/1/books/5");
+	curl.GET(url: "http://localhost:5000/users/1/books/5");
 
 	app.Run();
 }

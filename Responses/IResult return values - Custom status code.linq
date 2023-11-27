@@ -11,7 +11,7 @@ void Main()
 	
 	app.MapGet("/405", () => Results.StatusCode(405).Dump("405 error"));
 	
-	Curl.GET();
+	curl.GET();
 	
 	app.Run();
 }

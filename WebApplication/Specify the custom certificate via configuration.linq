@@ -22,7 +22,7 @@ void Main()
 
 	app.MapGet("/",() => "Hello World");
 
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }

@@ -14,7 +14,7 @@ void Main()
 
 	TodoEndpoints.Map(app);
 
-	Curl.GET(url: "http://localhost:5000/1");
+	curl.GET(url: "http://localhost:5000/1");
 
 	app.Run();
 }

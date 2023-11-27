@@ -14,7 +14,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello World".Dump("result"));
 	
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }

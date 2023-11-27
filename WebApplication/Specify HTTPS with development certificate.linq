@@ -15,7 +15,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello World".Dump("Run on HTTPS"));
 	
-	Curl.GET(url: "https://localhost:5000");
+	curl.GET(url: "https://localhost:5000");
 
 	app.Run();
 }

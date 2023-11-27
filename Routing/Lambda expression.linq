@@ -17,7 +17,7 @@ void Main()
 	
 	handler().Dump("Result of lambda variable");
 	
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }

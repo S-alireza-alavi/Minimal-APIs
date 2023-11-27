@@ -10,7 +10,7 @@ void Main()
 
 	app.MapGet("/hello", () => new { Message = "Hello World".Dump("JSON type return value") });
 	
-	Curl.GET();
+	curl.GET();
 	
 	app.Run();
 }

@@ -31,7 +31,7 @@ void Main()
 		}
 	});
 
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }

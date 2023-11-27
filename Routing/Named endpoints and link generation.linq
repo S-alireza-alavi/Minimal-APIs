@@ -17,7 +17,7 @@ void Main()
 	app.MapGet("/", (LinkGenerator linker) =>
 			$"The link to the hello route is {linker.GetPathByName("hi", values: null)}".Dump("Link generated"));
 
-	Curl.GET(url: "http://localhost:5000/hello");
+	curl.GET(url: "http://localhost:5000/hello");
 
 	app.Run();
 }

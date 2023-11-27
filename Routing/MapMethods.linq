@@ -17,7 +17,10 @@ void Main()
 	app.MapMethods("/options-or-head", new[] { "OPTIONS", "HEAD" },
 	() => "This is an options or head request".Dump("Map Methods"));
 	
-	Curl.GET();
+	curl.GET();
+	curl.POST();
+	curl.PUT();
+	curl.DELETE();
 	
 	app.Run();
 }

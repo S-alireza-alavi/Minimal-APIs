@@ -19,7 +19,7 @@ void Main()
 	
 	app.UseEndpoints(e => { });
 
-	Curl.GET(url: "http://localhost:5000/A");
+	curl.GET(url: "http://localhost:5000/A");
 
 	app.Run(context =>
 	{

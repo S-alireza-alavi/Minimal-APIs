@@ -22,7 +22,7 @@ void Main()
 	connectionString.Dump("ConnectionString");
 	someSetting.Dump("SomeSetting");
 
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }

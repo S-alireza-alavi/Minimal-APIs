@@ -11,7 +11,7 @@ void Main()
 
 	app.MapGet("/",() => HelloHandler.Hello().Dump("Result"));
 	
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }

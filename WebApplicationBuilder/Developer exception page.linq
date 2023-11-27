@@ -20,7 +20,7 @@ void Main()
 		throw new InvalidOperationException("Oops, the '/' route has thrown an exception.".Dump("Developer Exception"));
 	});
 	
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }

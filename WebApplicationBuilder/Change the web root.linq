@@ -15,7 +15,7 @@ void Main()
 
 	var app = builder.Build();
 	
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }

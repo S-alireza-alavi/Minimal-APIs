@@ -20,7 +20,7 @@ void Main()
 		jsonData.Dump("JSON data");
 	});
 
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }

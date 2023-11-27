@@ -13,7 +13,7 @@ void Main()
 
 	app.MapGet("/old-path", () => Results.Redirect("/new-path".Dump("Redirected to new-path from old-path")));
 
-	Curl.GET();
+	curl.GET();
 
 	app.Run();
 }
