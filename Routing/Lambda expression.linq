@@ -13,11 +13,16 @@ void Main()
 
 	var handler = () => "This is a lambda variable";
 
-	app.MapGet("/", handler);
+	app.MapGet("/", () => 
+	{
+		var result = handler();
+		result.Dump("Result of lambda variable");
+		return result;
+	});
 	
-	handler().Dump("Result of lambda variable");
-	
-	curl.GET();
+	curl.GET(url: "http://localhost:5000/inline");
 
 	app.Run();
 }
+
+string handler() => "This is a lambda variable";
