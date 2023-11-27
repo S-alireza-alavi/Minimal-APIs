@@ -138,7 +138,7 @@ void Main()
 		}
 	});
 
-	MyExtensions.SendRequestToServer();
+	curl.GET();
 
 	app.Run();
 }

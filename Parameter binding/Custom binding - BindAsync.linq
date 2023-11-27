@@ -16,7 +16,7 @@ void Main()
 	app.MapGet("/products", (PagingData pageData) => $"SortBy: {pageData.SortBy}, " +
 	$"SortDirection: {pageData.SortDirection}, CurrentPage: {pageData.CurrentPage}".Dump("Result"));
 	
-	MyExtensions.SendRequestToServer();
+	curl.GET();
 	
 	app.Run();
 }

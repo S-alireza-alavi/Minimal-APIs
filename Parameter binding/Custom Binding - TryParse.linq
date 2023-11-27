@@ -20,7 +20,7 @@ void Main()
 	// GET /map?Point=12.3,10.1
 	app.MapGet("/map", (Point point) => $"Point: {point.X}, {point.Y}".Dump("Result"));
 	
-	MyExtensions.SendRequestToServer();
+	curl.GET();
 	
 	app.Run();
 }

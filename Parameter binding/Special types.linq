@@ -25,7 +25,7 @@ void Main()
 	//ClaimsPrincipal
 	//app.MapGet("/", (ClaimsPrincipal user) => user.Identity.Name.Dump("ClaimsPrincipal"));
 
-	MyExtensions.SendRequestToServer();
+	curl.GET();
 
 	app.Run();
 }

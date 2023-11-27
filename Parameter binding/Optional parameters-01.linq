@@ -18,7 +18,7 @@ void Main()
 
 	app.MapGet("/products", (int pageNumber) => $"Requesting page {pageNumber}".Dump("result"));
 	
-	MyExtensions.SendRequestToServer();
+	curl.GET();
 	
 	app.Run();
 }

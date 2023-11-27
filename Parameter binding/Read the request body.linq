@@ -20,7 +20,7 @@ void Main()
 		await request.BodyReader.CopyToAsync(writeStream);
 	});
 	
-	MyExtensions.SendRequestToServer();
+	curl.POST();
 	
 	app.Run();
 }
