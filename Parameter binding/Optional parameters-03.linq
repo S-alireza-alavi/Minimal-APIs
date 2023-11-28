@@ -10,11 +10,18 @@ void Main()
 	var builder = WebApplication.CreateBuilder();
 	var app = builder.Build();
 
-	app.MapPost("/products", (Product? product) => { });
+	app.MapPost("/products", (Product? product) =>
+	{
+		product.Dump("Received product");
+	});
+
+	curl.POST(url: "http://localhost:5000/products");
 
 	app.Run();
 }
 
-class Product { }
+class Product
+{
+}
 //The preceding code calls the method with a null product if no request body is sent.
 //NOTE: If invalid data is provided and the parameter is nullable, the route handler is not run.

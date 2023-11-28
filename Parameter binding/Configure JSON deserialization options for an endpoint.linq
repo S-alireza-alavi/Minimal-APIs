@@ -3,6 +3,7 @@
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <Namespace>System.Text.Json</Namespace>
   <Namespace>Microsoft.AspNetCore.Http</Namespace>
+  <Namespace>System.Threading.Tasks</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
 
@@ -25,7 +26,8 @@ void Main()
 			{
 				todo.Name = todo.NameField;
 			}
-			return Results.Ok(todo);
+			
+			return Results.Ok(Task.FromResult(todo).Dump("result"));
 		}
 		else
 		{

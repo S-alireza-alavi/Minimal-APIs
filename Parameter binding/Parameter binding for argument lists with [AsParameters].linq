@@ -18,19 +18,15 @@ void Main()
 	builder.Services.AddDbContext<TodoDb>(opt => opt.UseInMemoryDatabase("TodoList"));
 	var app = builder.Build();
 
+	// Seed data
+	SeedData(app.Services.GetRequiredService<TodoDb>());
+
 	app.MapGet("/todoitems", async (TodoDb db) =>
 	{
 		var result = await db.Todos.Select(x => new TodoItemDTO(x)).ToListAsync();
 		result.Dump("Todo items");
 		return result;
 	});
-
-	//app.MapGet("/todoitems/{id}",
-	//					 		async (int Id, TodoDb Db) =>
-	//	await Db.Todos.FindAsync(Id)
-	//		is Todo todo
-	//			? Results.Ok(new TodoItemDTO(todo))
-	//			: Results.NotFound());
 
 	app.MapGet("/ap/todoitems/{id}", async ([AsParameters] TodoItemRequest request) =>
 	{
@@ -48,20 +44,6 @@ void Main()
 		}
 	});
 
-	//	app.MapPost("/todoitems", async (TodoItemDTO Dto, TodoDb Db) =>
-	//	{
-	//		var todoItem = new Todo
-	//		{
-	//			IsComplete = Dto.IsComplete,
-	//			Name = Dto.Name
-	//		};
-	//
-	//		Db.Todos.Add(todoItem);
-	//		await Db.SaveChangesAsync();
-	//
-	//		return Results.Created($"/todoitems/{todoItem.Id}", new TodoItemDTO(todoItem));
-	//	});
-
 	app.MapPost("/ap/todoitems", async ([AsParameters] CreateTodoItemRequest request) =>
 	{
 		var todoItem = new Todo
@@ -78,20 +60,6 @@ void Main()
 		return result;
 	});
 
-	//	app.MapPut("/todoitems/{id}", async (int Id, TodoItemDTO Dto, TodoDb Db) =>
-	//	{
-	//		var todo = await Db.Todos.FindAsync(Id);
-	//
-	//		if (todo is null) return Results.NotFound();
-	//
-	//		todo.Name = Dto.Name;
-	//		todo.IsComplete = Dto.IsComplete;
-	//
-	//		await Db.SaveChangesAsync();
-	//
-	//		return Results.NoContent();
-	//	});
-
 	app.MapPut("/ap/todoitems/{id}", async ([AsParameters] EditTodoItemRequest request) =>
 	{
 		var todo = await request.Db.Todos.FindAsync(request.Id);
@@ -107,18 +75,6 @@ void Main()
 		Results.NoContent().Dump("Todo item updated");
 		return Results.NoContent();
 	});
-
-	//	app.MapDelete("/todoitems/{id}", async (int Id, TodoDb Db) =>
-	//	{
-	//		if (await Db.Todos.FindAsync(Id) is Todo todo)
-	//		{
-	//			Db.Todos.Remove(todo);
-	//			await Db.SaveChangesAsync();
-	//			return Results.Ok(new TodoItemDTO(todo));
-	//		}
-	//
-	//		return Results.NotFound();
-	//	});
 
 	app.MapDelete("/ap/todoitems/{id}", async ([AsParameters] TodoItemRequest request) =>
 	{
@@ -138,9 +94,49 @@ void Main()
 		}
 	});
 
-	curl.GET();
+	curl.GET(url: "http://localhost:5000/todoitems");
+
+	curl.GET(url: "http://localhost:5000/ap/todoitems/2");
+
+	var createTodoItemDto = new CreateTodoItemRequest
+	{
+		Dto = new TodoItemDTO
+		{
+			Name = "New Todo Item",
+			IsComplete = false
+		}
+	};
+
+	curl.POST(url: "http://localhost:5000/ap/todoitems", data: System.Text.Json.JsonSerializer.Serialize(createTodoItemDto), contentType: "application/json");
+
+	var updateTodoItemDto = new EditTodoItemRequest
+	{
+		Id = 1,
+		Dto = new TodoItemDTO
+		{
+			Name = "Updated Todo Item",
+			IsComplete = true
+		}
+	};
+
+	curl.PUT(url: $"http://localhost:5000/ap/todoitems/{updateTodoItemDto.Id}", data: System.Text.Json.JsonSerializer.Serialize(updateTodoItemDto), contentType: "application/json");
+
+	var deleteTodoItemId = 1;
+
+	curl.DELETE(url: $"http://localhost:5000/ap/todoitems/{deleteTodoItemId}");
 
 	app.Run();
+}
+
+void SeedData(TodoDb db)
+{
+	var todo1 = new Todo { Name = "Buy groceries", IsComplete = false };
+	var todo2 = new Todo { Name = "Read a book", IsComplete = true };
+
+	db.Todos.AddRange(todo1, todo2);
+	db.SaveChanges();
+
+	"Seed data has been added.".Dump("SeedData");
 }
 
 public class Todo
@@ -164,10 +160,16 @@ public class TodoItemDTO
 
 class TodoDb : DbContext
 {
-	public TodoDb(DbContextOptions<TodoDb> options)
-		: base(options) { }
-
 	public DbSet<Todo> Todos => Set<Todo>();
+
+	public TodoDb(DbContextOptions<TodoDb> options) : base(options)
+	{
+	}
+
+	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+	{
+		optionsBuilder.UseInMemoryDatabase(databaseName: "InMemoryDatabase");
+	}
 }
 
 struct TodoItemRequest

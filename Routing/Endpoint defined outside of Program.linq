@@ -13,6 +13,8 @@ void Main()
 	var app = builder.Build();
 
 	TodoEndpoints.Map(app);
+	
+	curl.GET();
 
 	curl.GET(url: "http://localhost:5000/1");
 

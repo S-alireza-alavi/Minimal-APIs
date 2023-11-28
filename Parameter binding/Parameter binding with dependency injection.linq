@@ -8,7 +8,8 @@
 
 void Main()
 {
-	//Parameter binding for minimal APIs binds parameters through dependency injection when the type is configured as a service. It's not necessary to explicitly apply the [FromServices] attribute to a parameter. In the following code, both actions return the time:
+	//Parameter binding for minimal APIs binds parameters through dependency injection when the type is configured as a service.
+	//It's not necessary to explicitly apply the [FromServices] attribute to a parameter. In the following code, both actions return the time:
 	var builder = WebApplication.CreateBuilder();
 	builder.Services.AddSingleton<IDateTime, SystemDateTime>();
 
@@ -26,6 +27,11 @@ void Main()
 		now.Dump("Result using [FromServices]");
 		return now;
 	});
+
+	curl.GET();
+
+	curl.GET(url: "http://localhost:5000/fs");
+
 	app.Run();
 }
 

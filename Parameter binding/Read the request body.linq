@@ -20,7 +20,7 @@ void Main()
 		await request.BodyReader.CopyToAsync(writeStream);
 	});
 	
-	curl.POST();
+	curl.POST(url: "http://localhost:5000/uploadstream", filePaths: new List<string> { "./Read the request body.txt" });
 	
 	app.Run();
 }

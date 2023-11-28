@@ -16,7 +16,7 @@ void Main()
 	app.MapGet("/products", (PagingData pageData) => $"SortBy: {pageData.SortBy}, " +
 	$"SortDirection: {pageData.SortDirection}, CurrentPage: {pageData.CurrentPage}".Dump("Result"));
 	
-	curl.GET();
+	curl.GET(url: "http://localhost:5000/products?SortBy=xyz&SortDir=Desc&Page=99");
 	
 	app.Run();
 }

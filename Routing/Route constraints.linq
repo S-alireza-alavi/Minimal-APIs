@@ -31,7 +31,9 @@ void Main()
 	app.MapGet("/todos/{text}", (string text) => db.Todos.Where(t => t.Name.Contains(text)).ToList().Dump("Searched by Name"));
 	app.MapGet("/posts/{slug:regex(^[a-z0-9_-]+$)}", (string slug) => $"Post {slug}".Dump("Searched by Regex"));
 
-	curl.GET();
+	curl.GET(url: "http://localhost:5000/todos/1");
+	curl.GET(url: "http://localhost:5000/todos/Task");
+	curl.GET(url: "http://localhost:5000/posts/myslug");
 
 	app.Run();
 }

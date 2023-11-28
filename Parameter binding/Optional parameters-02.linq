@@ -15,6 +15,12 @@ void Main()
 	string ListProducts(int pageNumber = 1) => $"Requesting page {pageNumber}";
 
 	app.MapGet("/products2", ListProducts);
+	
+	curl.GET(url: "http://localhost:5000/products");
+	curl.GET(url: "http://localhost:5000/products?pageNumber=2");
+
+	curl.GET(url: "http://localhost:5000/products2");
+	curl.GET(url: "http://localhost:5000/products2?pageNumber=2");
 
 	app.Run();
 }

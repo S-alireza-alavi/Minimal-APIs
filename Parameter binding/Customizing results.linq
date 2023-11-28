@@ -19,9 +19,11 @@ void Main()
         	<h1>Hello World</h1>
         	<p>The time on the server is {DateTime.Now:O}</p>
     	</body>
-	</html>").Dump("result"));
+	</html>"));
 
-	curl.GET();
+	"Test on browser".Dump("result");
+
+	curl.GET(url: "http://localhost:5000/html");
 
 	app.Run();
 }

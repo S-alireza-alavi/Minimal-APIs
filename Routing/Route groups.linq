@@ -2,12 +2,15 @@
   <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <NuGetReference>Microsoft.EntityFrameworkCore</NuGetReference>
   <NuGetReference>Microsoft.EntityFrameworkCore.InMemory</NuGetReference>
+  <NuGetReference>Newtonsoft.Json</NuGetReference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <Namespace>Microsoft.AspNetCore.Http</Namespace>
+  <Namespace>Microsoft.AspNetCore.Http.HttpResults</Namespace>
+  <Namespace>Microsoft.AspNetCore.Mvc</Namespace>
   <Namespace>Microsoft.AspNetCore.Routing</Namespace>
   <Namespace>Microsoft.EntityFrameworkCore</Namespace>
+  <Namespace>Newtonsoft.Json</Namespace>
   <Namespace>System.Threading.Tasks</Namespace>
-  <Namespace>Microsoft.AspNetCore.Http.HttpResults</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
 
@@ -15,8 +18,15 @@ void Main()
 {
 	var app = WebApplication.Create();
 
-	//app.MapGet("/public/todos")
-	//.MapToD
+	app.MapGroup("/public/todos")
+	.MapTodosApi()
+	.WithTags("Public");
+
+	app.MapGroup("/private/todos")
+	.MapTodosApi()
+	.WithTags("Private")
+	.AddEndpointFilterFactory(QueryPrivateTodos)
+	.RequireAuthorization();
 
 	EndpointFilterDelegate QueryPrivateTodos(EndpointFilterFactoryContext factoryContext, EndpointFilterDelegate next)
 	{
@@ -54,7 +64,11 @@ void Main()
 		};
 	}
 	
-	curl.GET();
+	curl.GET(url: "http://localhost:5000/public/todos/");
+	curl.GET(url: "http://localhost:5000/public/todos/1");
+	curl.POST(url: "http://localhost:5000/public/todos/");
+	curl.PUT(url: "http://localhost:5000/public/todos/1");
+	curl.DELETE(url: "http://localhost:5000/public/todos/1");
 	
 	app.Run();
 }
@@ -63,7 +77,7 @@ public static class EXMethods
 {
 	public static RouteGroupBuilder MapTodosApi(this RouteGroupBuilder group)
 	{
-		group.MapGet("/", CRUD.GetAllTodos).Dump("GetAllTodos");
+		group.MapGet("/", CRUD.GetAllTodos);
 		group.MapGet("/{id}", CRUD.GetTodo).Dump("GetTodo");
 		group.MapPost("/", CRUD.CreateTodo).Dump("CreateTodo");
 		group.MapPut("/{id}", CRUD.UpdateTodo).Dump("UpdateTodo");
@@ -95,20 +109,31 @@ public class TodoDb : DbContext
 public static class CRUD
 {
 	private static readonly TodoDb _database = new TodoDb();
+	
 	public static async Task<IEnumerable<Todo>> GetAllTodos()
 	{
-		return await _database.Todos.ToListAsync();
+		var todos = await _database.Todos.ToListAsync();
+		
+		todos.Dump("All Todos");
+		
+		return todos;
 	}
 
 	public static async Task<Todo> GetTodo(int id)
 	{
-		return await _database.Todos.FirstOrDefaultAsync(todo => todo.Id == id);
+		var todo = await _database.Todos.FirstOrDefaultAsync(todo => todo.Id == id);
+
+		(todo != null ? new[] { todo } : Array.Empty<Todo>()).Dump($"Todo details - Id: {id}");
+		
+		return todo;
 	}
 
 	public static async Task<Created<Todo>> CreateTodo(Todo todo)
 	{
 		await _database.AddAsync(todo);
 		await _database.SaveChangesAsync();
+		
+		todo.Dump("");
 
 		return TypedResults.Created($"{todo.Id}", todo);
 	}

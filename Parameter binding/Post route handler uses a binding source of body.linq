@@ -12,10 +12,15 @@ void Main()
 
 	var app = builder.Build();
 
-	app.MapPost("/", (Person person) => { "It must be sent with POST method".Dump(); });
-	
-	curl.POST();
-	
+	app.MapPost("/", (Person person) =>
+	{
+		$"Received POST request with data:".Dump("Posted Successfully");
+		$"Name: {person.Name}".Dump("Person Name");
+		$"Age: {person.Age}".Dump("Person Age");
+	});
+
+	curl.POST(data: "{\"Name\":\"John\", \"Age\":30}", contentType: "application/json");
+
 	app.Run();
 }
 

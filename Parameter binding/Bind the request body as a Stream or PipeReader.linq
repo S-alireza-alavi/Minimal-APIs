@@ -49,7 +49,7 @@ void Main()
 	{
 		if (req.ContentLength is not null && req.ContentLength > maxMessageSize)
 		{
-			return Results.BadRequest();
+			return Results.BadRequest("Request body is too large.");
 		}
 
 		// We're not above the message size and we have a content length, or
@@ -72,13 +72,18 @@ void Main()
 		// Attempt to send the buffer to the background queue.
 		if (queue.Writer.TryWrite(buffer.AsMemory(0..read)))
 		{
-			return Results.Accepted().Dump("Success");
+			var successMessage = new { Message = "Data accepted and queued for processing." };
+			return Results.Accepted();
 		}
 
 		// We couldn't accept the message since we're overloaded.
 		return Results.StatusCode(StatusCodes.Status429TooManyRequests);
 	});
-	
+
+	curl.POST(url: "http://localhost:5000/register",
+		  data: "{\"Name\":\"Samson\", \"Age\": 23, \"Country\":\"Nigeria\"}",
+		  contentType: "application/json");
+
 	app.Run();
 }
 

@@ -23,11 +23,20 @@ void Main()
 		{
 			todo.Name = todo.NameField;
 		}
-		return todo;
+
+		return todo.Dump("result");
 	});
+
+	var todoData = new Todo
+	{
+		NameField = "Walk dog",
+		IsComplete = false
+	};
 	
-	curl.GET();
-	
+	var todoJson = System.Text.Json.JsonSerializer.Serialize(todoData);
+
+	curl.POST(url: "http://localhost:5000/", data: todoJson, contentType: "application/json");
+
 	app.Run();
 }
 

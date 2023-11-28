@@ -17,6 +17,8 @@ void Main()
 	app.MapGet("/", (LinkGenerator linker) =>
 			$"The link to the hello route is {linker.GetPathByName("hi", values: null)}".Dump("Link generated"));
 
+	curl.GET();
+
 	curl.GET(url: "http://localhost:5000/hello");
 
 	app.Run();
@@ -30,5 +32,6 @@ NOTE: Endpoint names are case sensitive.
 Endpoint names:
 
 Must be globally unique.
-Are used as the OpenAPI operation id when OpenAPI support is enabled. For more information, <see https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/openapi?view=aspnetcore-7.0/>.
+Are used as the OpenAPI operation id when OpenAPI support is enabled. For more information,
+<see https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/openapi?view=aspnetcore-7.0/>.
 */

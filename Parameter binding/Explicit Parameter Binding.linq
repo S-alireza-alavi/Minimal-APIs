@@ -23,10 +23,15 @@ void Main()
 					 [FromServices] Service service,
 					 [FromHeader(Name = "Content-Type")] string contentType)
 					 =>
-	{ });
-	
-	curl.GET();
-	
+	{
+		$"Used id as parameter: {id}".Dump("id");
+		$"Used 'page' as query string: {page}".Dump("page");
+		$"Used Service: {service.GetType().Name}".Dump("service");
+		$"Used Content-Type from header: {contentType}".Dump("contentType");
+	});
+
+	curl.GET(url: "http://localhost:5000/123?p=1", headers: new Dictionary<string, string> { { "Content-Type", "application/json" } });
+
 	app.Run();
 }
 

@@ -16,9 +16,9 @@ void Main()
 	var builder = WebApplication.CreateBuilder();
 	var app = builder.Build();
 
-	app.MapGet("/products", (int pageNumber) => $"Requesting page {pageNumber}".Dump("result"));
-	
-	curl.GET();
-	
+	app.MapGet("/products/{pageNumber:int}", (int pageNumber) => $"Requesting page {pageNumber}".Dump("result"));
+
+	curl.GET(url: "http://localhost:5000/products/1");
+
 	app.Run();
 }

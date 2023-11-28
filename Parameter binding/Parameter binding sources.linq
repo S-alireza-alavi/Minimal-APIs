@@ -1,8 +1,8 @@
 <Query Kind="Program">
   <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
-  <Namespace>Microsoft.Extensions.DependencyInjection</Namespace>
   <Namespace>Microsoft.AspNetCore.Mvc</Namespace>
+  <Namespace>Microsoft.Extensions.DependencyInjection</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
 
@@ -37,7 +37,16 @@ void Main()
 	int page,
 	[FromHeader(Name = "X-CUSTOM-HEADER")] string customHeader,
 	Service service) =>
-	{ });
+	{
+		$"Received request with id: {id}".Dump("id");
+		$"Received request with page: {page}".Dump("page");
+		$"Received request with custom header: {customHeader}".Dump("header");
+		$"Service instance: {service}".Dump("service");
+	});
+
+	curl.GET(url: "http://localhost:5000/123?page=1", headers: new Dictionary<string, string> { { "X-CUSTOM-HEADER", "header-value" } });
+
+	app.Run();
 }
 
 class Service
