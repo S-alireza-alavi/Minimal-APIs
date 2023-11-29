@@ -11,7 +11,7 @@ void Main()
 	var builder = WebApplication.CreateBuilder();
 
 	// Change the HTTP server implemenation to be HTTP.sys based
-	builder.WebHost.UseHttpSys().Dump("UseHttpSys()");
+	builder.WebHost.UseHttpSys();
 
 	var app = builder.Build();
 

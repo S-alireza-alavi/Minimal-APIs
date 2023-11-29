@@ -11,7 +11,7 @@ void Main()
 
 	app.MapGet("/hello", () => TypedResults.Ok("Hello World!".Dump("Return TypedResults")));
 
-	curl.GET();
+	curl.GET(url: "http://localhost:5000/hello");
 
 	app.Run();
 }

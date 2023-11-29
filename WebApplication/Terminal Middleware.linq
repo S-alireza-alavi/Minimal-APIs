@@ -14,10 +14,11 @@ void Main()
 
 	app.UseRouting();
 	
-	//Why this line Dupmed in the other system but not this one?
 	app.MapGet("/", () => "Hello World!".Dump("result"));
 	
 	app.UseEndpoints(e => { });
+	
+	curl.GET();
 
 	curl.GET(url: "http://localhost:5000/A");
 

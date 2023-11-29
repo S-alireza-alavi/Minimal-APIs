@@ -13,7 +13,9 @@ void Main()
 
 	app.MapGet("/old-path", () => Results.Redirect("/new-path".Dump("Redirected to new-path from old-path")));
 
-	curl.GET();
+	curl.GET(url: "http://localhost:5000/new-path");
+
+	curl.GET(url: "http://localhost:5000/old-path");
 
 	app.Run();
 }

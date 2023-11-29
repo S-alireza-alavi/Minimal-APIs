@@ -1,10 +1,11 @@
 <Query Kind="Program">
   <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
-  <NuGetReference>Microsoft.EntityFrameworkCore</NuGetReference>
-  <NuGetReference>Microsoft.EntityFrameworkCore.InMemory</NuGetReference>
+  <NuGetReference Version="7.0.13">Microsoft.EntityFrameworkCore</NuGetReference>
+  <NuGetReference Version="7.0.13">Microsoft.EntityFrameworkCore.InMemory</NuGetReference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <Namespace>Microsoft.AspNetCore.Http</Namespace>
   <Namespace>Microsoft.EntityFrameworkCore</Namespace>
+  <Namespace>Microsoft.AspNetCore.Mvc</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
 
@@ -39,7 +40,7 @@ void Main()
    .Produces<Todo>(StatusCodes.Status200OK.Dump("Found"))
    .Produces(StatusCodes.Status404NotFound.Dump("Not found"));
    
-   curl.GET();
+   curl.GET(url: "http://localhost:5000/hello");
    
    app.Run();
 }

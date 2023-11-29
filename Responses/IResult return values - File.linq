@@ -28,7 +28,7 @@ void Main()
 		}
 	});
 
-	curl.GET();
+	curl.GET(url: "http://localhost:5000/download");
 
 	app.Run();
 }

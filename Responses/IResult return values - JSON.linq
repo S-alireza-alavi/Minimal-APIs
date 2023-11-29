@@ -11,7 +11,7 @@ void Main()
 
 	app.MapGet("/hello",() => Results.Json(new { Message = "Hello World" }.Dump("JSON type Hello World!")));
 	
-	curl.GET();
+	curl.GET(url: "http://localhost:5000/hello");
 	
 	app.Run();
 }

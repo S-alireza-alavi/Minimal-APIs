@@ -17,7 +17,7 @@ void Main()
 		WriteIndented = true
 	};
 
-	app.MapGet("/", async (HttpContext context) =>
+	app.MapPost("/", async (HttpContext context) =>
 	{
 		if (context.Request.HasJsonContentType())
 		{
@@ -26,16 +26,16 @@ void Main()
 			{
 				todo.Name = todo.NameField;
 			}
-			
-			return Results.Ok(Task.FromResult(todo).Dump("result"));
+
+			return Results.Ok(todo.Dump("Todo"));
 		}
 		else
 		{
 			return Results.BadRequest();
 		}
 	});
-
-	curl.GET();
+	
+	curl.POST(url: "http://localhost:5000", data: "{\"nameField\":\"Walk dog\", \"isComplete\":false}", contentType: "application/json");
 
 	app.Run();
 }

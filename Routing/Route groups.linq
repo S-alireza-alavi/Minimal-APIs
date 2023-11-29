@@ -1,29 +1,40 @@
 <Query Kind="Program">
   <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
-  <NuGetReference>Microsoft.EntityFrameworkCore</NuGetReference>
-  <NuGetReference>Microsoft.EntityFrameworkCore.InMemory</NuGetReference>
-  <NuGetReference>Newtonsoft.Json</NuGetReference>
+  <NuGetReference Version="7.0.13">Microsoft.EntityFrameworkCore</NuGetReference>
+  <NuGetReference Version="7.0.13">Microsoft.EntityFrameworkCore.InMemory</NuGetReference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <Namespace>Microsoft.AspNetCore.Http</Namespace>
   <Namespace>Microsoft.AspNetCore.Http.HttpResults</Namespace>
-  <Namespace>Microsoft.AspNetCore.Mvc</Namespace>
   <Namespace>Microsoft.AspNetCore.Routing</Namespace>
   <Namespace>Microsoft.EntityFrameworkCore</Namespace>
-  <Namespace>Newtonsoft.Json</Namespace>
   <Namespace>System.Threading.Tasks</Namespace>
+  <Namespace>Microsoft.Extensions.DependencyInjection</Namespace>
+  <Namespace>Microsoft.AspNetCore.Mvc</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
 
-void Main()
+async Task Main()
 {
 	var app = WebApplication.Create();
 
+	// Configure services
+	var services = new ServiceCollection();
+	ConfigureServices(services);
+	var serviceProvider = services.BuildServiceProvider();
+
+	//Resolve CRUD from the service provider
+	var crud = serviceProvider.GetRequiredService<CRUD>();
+
+	// Seed initial data
+	var dbContext = serviceProvider.GetRequiredService<TodoDb>();
+	await SeedData(dbContext);
+
 	app.MapGroup("/public/todos")
-	.MapTodosApi()
+	.MapTodosApi(crud)
 	.WithTags("Public");
 
 	app.MapGroup("/private/todos")
-	.MapTodosApi()
+	.MapTodosApi(crud)
 	.WithTags("Private")
 	.AddEndpointFilterFactory(QueryPrivateTodos)
 	.RequireAuthorization();
@@ -63,25 +74,51 @@ void Main()
 			}
 		};
 	}
-	
+
 	curl.GET(url: "http://localhost:5000/public/todos/");
 	curl.GET(url: "http://localhost:5000/public/todos/1");
-	curl.POST(url: "http://localhost:5000/public/todos/");
+	curl.POST(url: "http://localhost:5000/public/todos/",
+		  data: "{\"Id\": 3, \"Name\": \"Task 3\", \"IsComplete\": false}");
 	curl.PUT(url: "http://localhost:5000/public/todos/1");
 	curl.DELETE(url: "http://localhost:5000/public/todos/1");
-	
+
 	app.Run();
+}
+
+public static void ConfigureServices(IServiceCollection services)
+{
+	services.AddDbContext<TodoDb>(options =>
+	{
+		options.UseInMemoryDatabase(databaseName: "InMemoryDatabase");
+	});
+
+	services.AddTransient<CRUD>();
+}
+
+public static async Task SeedData(TodoDb dbContext)
+{
+	if (!dbContext.Todos.Any())
+	{
+		var initialTodos = new List<Todo>
+		{
+			new Todo{ Id = 1, Name = "Task 1", IsComplete = false},
+			new Todo{ Id = 2, Name = "Task 2", IsComplete = true }
+		};
+
+		dbContext.Todos.AddRange(initialTodos);
+		await dbContext.SaveChangesAsync();
+	}
 }
 
 public static class EXMethods
 {
-	public static RouteGroupBuilder MapTodosApi(this RouteGroupBuilder group)
+	public static RouteGroupBuilder MapTodosApi(this RouteGroupBuilder group, CRUD crud)
 	{
-		group.MapGet("/", CRUD.GetAllTodos);
-		group.MapGet("/{id}", CRUD.GetTodo).Dump("GetTodo");
-		group.MapPost("/", CRUD.CreateTodo).Dump("CreateTodo");
-		group.MapPut("/{id}", CRUD.UpdateTodo).Dump("UpdateTodo");
-		group.MapDelete("/{id}", CRUD.DeleteTodo).Dump("DeleteTodo");
+		group.MapGet("/", crud.GetAllTodos);
+		group.MapGet("/{id}", crud.GetTodo).Dump("GetTodo");
+		group.MapPost("/", crud.CreateTodo).Dump("CreateTodo");
+		group.MapPut("/{id}", crud.UpdateTodo).Dump("UpdateTodo");
+		group.MapDelete("/{id}", crud.DeleteTodo).Dump("DeleteTodo");
 
 		return group;
 	}
@@ -100,45 +137,54 @@ public class TodoDb : DbContext
 
 	public bool IsPrivate { get; set; }
 
+	public TodoDb(DbContextOptions<TodoDb> options) : base(options)
+	{
+	}
+
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
 		optionsBuilder.UseInMemoryDatabase(databaseName: "InMemoryDatabase");
 	}
 }
 
-public static class CRUD
+public class CRUD
 {
-	private static readonly TodoDb _database = new TodoDb();
-	
-	public static async Task<IEnumerable<Todo>> GetAllTodos()
+	private readonly TodoDb _database;
+
+	public CRUD(TodoDb database)
+	{
+		_database = database ?? throw new ArgumentNullException(nameof(database));
+	}
+
+	public async Task<IEnumerable<Todo>> GetAllTodos()
 	{
 		var todos = await _database.Todos.ToListAsync();
-		
+
 		todos.Dump("All Todos");
-		
+
 		return todos;
 	}
 
-	public static async Task<Todo> GetTodo(int id)
+	public async Task<Todo> GetTodo(int id)
 	{
 		var todo = await _database.Todos.FirstOrDefaultAsync(todo => todo.Id == id);
 
 		(todo != null ? new[] { todo } : Array.Empty<Todo>()).Dump($"Todo details - Id: {id}");
-		
+
 		return todo;
 	}
 
-	public static async Task<Created<Todo>> CreateTodo(Todo todo)
+	public async Task<Created<Todo>> CreateTodo(Todo todo)
 	{
 		await _database.AddAsync(todo);
 		await _database.SaveChangesAsync();
-		
+
 		todo.Dump("");
 
 		return TypedResults.Created($"{todo.Id}", todo);
 	}
 
-	public static async Task<Todo> UpdateTodo(int id, Todo updatedTodo)
+	public async Task<Todo> UpdateTodo(int id, Todo updatedTodo)
 	{
 		var existingTodo = await _database.Todos.FirstOrDefaultAsync(todo => todo.Id == id);
 
@@ -155,7 +201,7 @@ public static class CRUD
 		return existingTodo;
 	}
 
-	public static async Task<bool> DeleteTodo(int id)
+	public async Task<bool> DeleteTodo(int id)
 	{
 		var existingTodo = await _database.Todos.FirstOrDefaultAsync(todo => todo.Id == id);
 
