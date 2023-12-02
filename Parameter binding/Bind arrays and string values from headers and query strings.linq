@@ -1,7 +1,7 @@
 <Query Kind="Program">
   <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
-  <NuGetReference Version="7.0.13">Microsoft.EntityFrameworkCore</NuGetReference>
-  <NuGetReference Version="7.0.13">Microsoft.EntityFrameworkCore.InMemory</NuGetReference>
+  <NuGetReference>Microsoft.EntityFrameworkCore</NuGetReference>
+  <NuGetReference>Microsoft.EntityFrameworkCore.InMemory</NuGetReference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <Namespace>Microsoft.AspNetCore.Http</Namespace>
   <Namespace>Microsoft.AspNetCore.Mvc</Namespace>

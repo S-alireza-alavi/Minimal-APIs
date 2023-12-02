@@ -1,7 +1,7 @@
 <Query Kind="Program">
   <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
-  <NuGetReference Version="7.0.13">Microsoft.EntityFrameworkCore</NuGetReference>
-  <NuGetReference Version="7.0.13">Microsoft.EntityFrameworkCore.InMemory</NuGetReference>
+  <NuGetReference>Microsoft.EntityFrameworkCore</NuGetReference>
+  <NuGetReference>Microsoft.EntityFrameworkCore.InMemory</NuGetReference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <Namespace>Microsoft.AspNetCore.Http</Namespace>
   <Namespace>Microsoft.EntityFrameworkCore</Namespace>
@@ -28,11 +28,13 @@ void Main()
 		
 		db.SaveChanges();
 	}
+	
+	var todos = db.Todos.Dump("Todos before FindAsync");
 
 	app.MapGet("/hello",() => Results.Ok(new { Message = "Hello World".Dump("/hello") }));
 
 	//The following example uses the built-in result types to customize the response:
-	app.MapGet("/api/todoitems/{id}", async (int id, TodoDb db) =>
+	app.MapGet("/api/todoitems/{id}", async (int id, [FromServices] TodoDb db) =>
 		 await db.Todos.FindAsync(id)
 		 is Todo todo
 		 ? Results.Ok(todo)
@@ -41,6 +43,8 @@ void Main()
    .Produces(StatusCodes.Status404NotFound.Dump("Not found"));
    
    curl.GET(url: "http://localhost:5000/hello");
+   
+   curl.GET(url: "http://localhost:5000/api/todoitems/1");
    
    app.Run();
 }
