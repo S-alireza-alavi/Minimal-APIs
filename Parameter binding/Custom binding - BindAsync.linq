@@ -13,8 +13,13 @@ void Main()
 	var app = builder.Build();
 
 	// GET /products?SortBy=xyz&SortDir=Desc&Page=99
-	app.MapGet("/products", (PagingData pageData) => $"SortBy: {pageData.SortBy}, " +
-	$"SortDirection: {pageData.SortDirection}, CurrentPage: {pageData.CurrentPage}".Dump("Result"));
+	app.MapGet("/products", (PagingData pageData) =>
+	{
+		var result = $"SortBy: {pageData.SortBy}, " +
+                     $"SortDirection: {pageData.SortDirection}, CurrentPage: {pageData.CurrentPage}";
+        result.Dump("Result");
+		return result;
+	});
 	
 	curl.GET(url: "http://localhost:5000/products?SortBy=xyz&SortDir=Desc&Page=99");
 	

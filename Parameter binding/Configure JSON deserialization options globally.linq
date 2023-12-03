@@ -11,7 +11,6 @@ void Main()
 
 	builder.Services.ConfigureHttpJsonOptions(options =>
 	{
-		options.SerializerOptions.WriteIndented = true;
 		options.SerializerOptions.IncludeFields = true;
 	});
 
@@ -32,7 +31,7 @@ void Main()
 		NameField = "Walk dog",
 		IsComplete = false
 	};
-	
+
 	var todoJson = System.Text.Json.JsonSerializer.Serialize(todoData);
 
 	curl.POST(url: "http://localhost:5000/", data: todoJson, contentType: "application/json");
@@ -43,7 +42,7 @@ void Main()
 class Todo
 {
 	public string? Name { get; set; }
-	public string? NameField;
+	public string? NameField { get; set; }
 	public bool IsComplete { get; set; }
 }
 // If the request body contains the following JSON:

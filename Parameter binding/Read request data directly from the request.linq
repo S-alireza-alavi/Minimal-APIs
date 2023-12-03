@@ -26,6 +26,7 @@ void Main()
 	app.MapPost("/", async (HttpRequest request) =>
 	{
 		var person = await request.ReadFromJsonAsync<Person>();
+		person.Dump("Received Person:");
 	});
 
 	curl.POST(

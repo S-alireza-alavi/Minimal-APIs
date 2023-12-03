@@ -12,7 +12,7 @@ void Main()
 
 	app.MapGet("/products", (int? pageNumber) => $"Requesting page {pageNumber ?? 1}".Dump("/products"));
 
-	string ListProducts(int pageNumber = 1) => $"Requesting page {pageNumber}";
+	string ListProducts(int pageNumber = 1) => $"Requesting page {pageNumber}".Dump("/products2");
 
 	app.MapGet("/products2", ListProducts);
 	

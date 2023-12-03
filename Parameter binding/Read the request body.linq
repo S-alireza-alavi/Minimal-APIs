@@ -12,16 +12,23 @@ void Main()
 	var builder = WebApplication.CreateBuilder();
 	var app = builder.Build();
 
-	app.MapPost("/uploadstream", async (IConfiguration config, HttpRequest request) =>
+	var storedFilesPath = Path.GetDirectoryName(Util.CurrentQueryPath);
+
+	app.MapPost("/uploadstream", async (HttpRequest request) =>
 	{
-		var filePath = Path.Combine(config["StoredFilesPath"], Path.GetRandomFileName());
-		
+		var filePath = Path.Combine(storedFilesPath, Path.GetRandomFileName() + ".txt");
+
 		await using var writeStream = File.Create(filePath);
 		await request.BodyReader.CopyToAsync(writeStream);
+		
+		await using var writer = new StreamWriter(writeStream);
+		await writer.WriteAsync("Request body data");
+		
+		filePath.Dump("Generated file path");
 	});
 	
-	curl.POST(url: "http://localhost:5000/uploadstream", filePaths: new List<string> { "./Read the request body.txt" });
-	
+	curl.POST(url: "http://localhost:5000/uploadstream");
+
 	app.Run();
 }
 

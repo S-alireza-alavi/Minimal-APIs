@@ -15,14 +15,15 @@ void Main()
 
 	app.MapPost("/upload", async (IFormFile file) =>
 	{
-		var tempFile = Path.GetTempFileName().Dump("tempFile");
-		file.Dump("fileDump");
+		var tempFile = Path.GetTempFileName();
 
 		if (file.Length > 0)
 		{
 			app.Logger.LogInformation(tempFile);
 			using var stream = File.OpenWrite(tempFile);
 			await file.CopyToAsync(stream);
+			
+			tempFile.Dump("tempFilePath");
 		}
 		else
 		{
@@ -36,26 +37,32 @@ void Main()
 		
 		foreach (var file in myFiles)
 		{
-			var tempFile = Path.GetTempFileName().Dump("tempFile2");
-			file.Dump("file");
+			var tempFile = Path.GetTempFileName();
 			
 			if (file.Length > 0)
 			{
 				app.Logger.LogInformation(tempFile);
 				using var stream = File.OpenWrite(tempFile);
 				await file.CopyToAsync(stream);
+				
+				tempFile.Dump("tempFilesPath");
 			}
 			else
 			{
-				app.Logger.LogInformation("Empty file received");
+				app.Logger.LogInformation("Empty files received");
 			}
 		}
 	});
+	
+	curl.GET(url: "http://localhost:5000");
 
-	var filePath = @".\File upload using IFormFile.txt";
+	var directory = Path.GetDirectoryName(Util.CurrentQueryPath);
+	
+	var filePath = Path.Combine(directory, "File upload using IFormFile.txt");
 	curl.POST(url: "http://localhost:5000/upload", filePaths: new List<string> { filePath });
 
-	var filePaths = new List<string> { @".\File uploads using IFormFileCollection-first.txt", @".\File uploads using IFormFileCollection-second.txt" };
+	var filePaths = new List<string> { Path.Combine(directory, "File uploads using IFormFileCollection-first.txt"), 
+	Path.Combine(directory, "File uploads using IFormFileCollection-second.txt") };
 	curl.POST(url: "http://localhost:5000/upload_many", filePaths: filePaths);
 
 	app.Run();

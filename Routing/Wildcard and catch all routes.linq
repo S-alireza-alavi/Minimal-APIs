@@ -14,7 +14,7 @@ void Main()
 
 	app.MapGet("/posts/{*rest}", (string rest) => $"Routing to {rest}".Dump($"/Result of using '{rest}' as a parameter"));
 	
-	curl.GET(url: "http://localhost:5000/posts/parameter");
+	curl.GET(url: "http://localhost:5000/posts/hello");
 
 	app.Run();
 }
