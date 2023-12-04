@@ -31,7 +31,6 @@ void Main()
 
 	curl.POST(
 		data: "{\"Id\":123, \"Name\":\"John\"}",
-		contentType: "application/json",
 		headers: new Dictionary<string, string> { { "X-CUSTOM-HEADER", "header-value" } }
 		);
 

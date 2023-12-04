@@ -5,108 +5,63 @@
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <Namespace>Microsoft.AspNetCore.Http</Namespace>
   <Namespace>Microsoft.AspNetCore.Http.HttpResults</Namespace>
+  <Namespace>Microsoft.AspNetCore.Mvc</Namespace>
   <Namespace>Microsoft.AspNetCore.Routing</Namespace>
   <Namespace>Microsoft.EntityFrameworkCore</Namespace>
-  <Namespace>System.Threading.Tasks</Namespace>
   <Namespace>Microsoft.Extensions.DependencyInjection</Namespace>
-  <Namespace>Microsoft.AspNetCore.Mvc</Namespace>
+  <Namespace>System.Threading.Tasks</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
 
 async Task Main()
 {
-	var app = WebApplication.Create();
+	var builder = WebApplication.CreateBuilder();
 
-	// Configure services
-	var services = new ServiceCollection();
-	ConfigureServices(services);
-	var serviceProvider = services.BuildServiceProvider();
+	builder.Services.AddDbContext<TodoDb>();
+	
+	builder.Services.AddScoped<CRUD>();
+
+	var app = builder.Build();
 
 	//Resolve CRUD from the service provider
-	var crud = serviceProvider.GetRequiredService<CRUD>();
+	var crud = app.Services.GetRequiredService<CRUD>();
 
 	// Seed initial data
-	var dbContext = serviceProvider.GetRequiredService<TodoDb>();
-	await SeedData(dbContext);
+	var db = app.Services.GetRequiredService<TodoDb>();
+	SeedData(db);
 
 	app.MapGroup("/public/todos")
 	.MapTodosApi(crud)
 	.WithTags("Public");
 
-	app.MapGroup("/private/todos")
-	.MapTodosApi(crud)
-	.WithTags("Private")
-	.AddEndpointFilterFactory(QueryPrivateTodos)
-	.RequireAuthorization();
-
-	EndpointFilterDelegate QueryPrivateTodos(EndpointFilterFactoryContext factoryContext, EndpointFilterDelegate next)
-	{
-		var dbContextIndex = -1;
-
-		foreach (var argument in factoryContext.MethodInfo.GetParameters())
-		{
-			if (argument.ParameterType == typeof(TodoDb))
-			{
-				dbContextIndex = argument.Position;
-				break;
-			}
-		}
-
-		// Skip filter if the method doesn't have a TodoDb parameter.
-		if (dbContextIndex < 0)
-		{
-			return next;
-		}
-
-		return async invocationContext =>
-		{
-			var dbContext = invocationContext.GetArgument<TodoDb>(dbContextIndex);
-			dbContext.IsPrivate = true;
-
-			try
-			{
-				return await next(invocationContext);
-			}
-			finally
-			{
-				// This should only be relevant if you're pooling or otherwise reusing the DbContext instance.
-				dbContext.IsPrivate = false;
-			}
-		};
-	}
-
 	curl.GET(url: "http://localhost:5000/public/todos/");
-	curl.GET(url: "http://localhost:5000/public/todos/1");
+	curl.GET(url: "http://localhost:5000/public/todos/5");
 	curl.POST(url: "http://localhost:5000/public/todos/",
 		  data: "{\"Id\": 3, \"Name\": \"Task 3\", \"IsComplete\": false}");
-	curl.PUT(url: "http://localhost:5000/public/todos/1");
+	curl.PUT(url: "http://localhost:5000/public/todos/4",
+    	data: "{\"Id\": 4, \"Name\": \"Updated Task 4\", \"IsComplete\": true}");
 	curl.DELETE(url: "http://localhost:5000/public/todos/1");
 
 	app.Run();
 }
 
-public static void ConfigureServices(IServiceCollection services)
-{
-	services.AddDbContext<TodoDb>(options =>
-	{
-		options.UseInMemoryDatabase(databaseName: "InMemoryDatabase");
-	});
-
-	services.AddTransient<CRUD>();
-}
-
-public static async Task SeedData(TodoDb dbContext)
+public static void SeedData(TodoDb dbContext)
 {
 	if (!dbContext.Todos.Any())
 	{
 		var initialTodos = new List<Todo>
 		{
 			new Todo{ Id = 1, Name = "Task 1", IsComplete = false},
-			new Todo{ Id = 2, Name = "Task 2", IsComplete = true }
+			new Todo{ Id = 2, Name = "Task 2", IsComplete = true },
+			new Todo{ Id = 3, Name = "Task 3", IsComplete = false },
+			new Todo{ Id = 4, Name = "Task 4", IsComplete = true },
+			new Todo{ Id = 5, Name = "Task 5", IsComplete = false },
 		};
 
 		dbContext.Todos.AddRange(initialTodos);
-		await dbContext.SaveChangesAsync();
+		dbContext.SaveChanges();
+		
+		"Seed data has been added.".Dump("SeedData");
 	}
 }
 
@@ -115,10 +70,10 @@ public static class EXMethods
 	public static RouteGroupBuilder MapTodosApi(this RouteGroupBuilder group, CRUD crud)
 	{
 		group.MapGet("/", crud.GetAllTodos);
-		group.MapGet("/{id}", crud.GetTodo).Dump("GetTodo");
-		group.MapPost("/", crud.CreateTodo).Dump("CreateTodo");
-		group.MapPut("/{id}", crud.UpdateTodo).Dump("UpdateTodo");
-		group.MapDelete("/{id}", crud.DeleteTodo).Dump("DeleteTodo");
+		group.MapGet("/{id}", crud.GetTodo);
+		group.MapPost("/", crud.CreateTodo);
+		group.MapPut("/{id}", crud.UpdateTodo);
+		group.MapDelete("/{id}", crud.DeleteTodo);
 
 		return group;
 	}
@@ -149,70 +104,72 @@ public class TodoDb : DbContext
 
 public class CRUD
 {
-	private readonly TodoDb _database;
-
-	public CRUD(TodoDb database)
+	public async Task<IEnumerable<Todo>> GetAllTodos(TodoDb dbContext)
 	{
-		_database = database ?? throw new ArgumentNullException(nameof(database));
+        var todos = await dbContext.Todos.ToListAsync();        
+        return todos;
 	}
 
-	public async Task<IEnumerable<Todo>> GetAllTodos()
+	public async Task<Todo> GetTodo(int id, TodoDb dbContext)
 	{
-		var todos = await _database.Todos.ToListAsync();
-
-		todos.Dump("All Todos");
-
-		return todos;
+        var todo = await dbContext.Todos.FirstOrDefaultAsync(todo => todo.Id == id);
+        (todo != null ? new[] { todo } : Array.Empty<Todo>()).Dump($"Todo details - Id: {id}");
+        return todo;
 	}
 
-	public async Task<Todo> GetTodo(int id)
+	public async Task<IActionResult> CreateTodo(Todo todo, TodoDb dbContext)
 	{
-		var todo = await _database.Todos.FirstOrDefaultAsync(todo => todo.Id == id);
-
-		(todo != null ? new[] { todo } : Array.Empty<Todo>()).Dump($"Todo details - Id: {id}");
-
-		return todo;
-	}
-
-	public async Task<Created<Todo>> CreateTodo(Todo todo)
-	{
-		await _database.AddAsync(todo);
-		await _database.SaveChangesAsync();
-
-		todo.Dump("");
-
-		return TypedResults.Created($"{todo.Id}", todo);
-	}
-
-	public async Task<Todo> UpdateTodo(int id, Todo updatedTodo)
-	{
-		var existingTodo = await _database.Todos.FirstOrDefaultAsync(todo => todo.Id == id);
-
-		if (existingTodo == null)
+		if (await dbContext.Todos.AnyAsync(t => t.Id == todo.Id))
 		{
-			return null;
+			return new ConflictObjectResult($"Todo with ID {todo.Id} already exists.");
 		}
 
-		existingTodo.Name = updatedTodo.Name;
-		existingTodo.IsComplete = updatedTodo.IsComplete;
-
-		await _database.SaveChangesAsync();
-
-		return existingTodo;
+		await dbContext.AddAsync(todo);
+		await dbContext.SaveChangesAsync();
+		todo.Dump("Created");
+		
+		return new CreatedResult($"{todo.Id}", todo);
 	}
 
-	public async Task<bool> DeleteTodo(int id)
+	public async Task<Todo> UpdateTodo(int id, Todo updatedTodo, TodoDb dbContext)
 	{
-		var existingTodo = await _database.Todos.FirstOrDefaultAsync(todo => todo.Id == id);
+    	var existingTodo = await dbContext.Todos.FirstOrDefaultAsync(todo => todo.Id == id);
 
-		if (existingTodo == null)
-		{
-			return false;
-		}
+    	if (existingTodo == null)
+    	{
+        	return null;
+    	}
 
-		_database.Todos.Remove(existingTodo);
-		await _database.SaveChangesAsync();
+    	if (existingTodo.Id == updatedTodo.Id && updatedTodo.Name != null)
+    	{
+        	existingTodo.Name = updatedTodo.Name;
+        	existingTodo.IsComplete = updatedTodo.IsComplete;
 
-		return true;
+        	await dbContext.SaveChangesAsync();
+			await dbContext.Todos.ToListAsync().Dump("All Todos After Update");
+        	return existingTodo.Dump("Updated todo");
+    	}
+    	else
+    	{
+        	return null;
+    	}
+	}
+
+
+	public async Task<bool> DeleteTodo(int id, TodoDb dbContext)
+	{
+        var existingTodo = await dbContext.Todos.FirstOrDefaultAsync(todo => todo.Id == id);
+
+        if (existingTodo == null)
+        {
+            return false;
+        }
+
+        dbContext.Todos.Remove(existingTodo);
+        await dbContext.SaveChangesAsync();
+		
+		await dbContext.Todos.ToListAsync().Dump("All Todos after Deletion");
+
+        return true;
 	}
 }

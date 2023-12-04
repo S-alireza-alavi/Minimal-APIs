@@ -34,7 +34,7 @@ void Main()
 
 	var todoJson = System.Text.Json.JsonSerializer.Serialize(todoData);
 
-	curl.POST(url: "http://localhost:5000/", data: todoJson, contentType: "application/json");
+	curl.POST(url: "http://localhost:5000/", data: todoJson);
 
 	app.Run();
 }

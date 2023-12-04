@@ -19,7 +19,7 @@ void Main()
 		$"Age: {person.Age}".Dump("Person Age");
 	});
 
-	curl.POST(data: "{\"Name\":\"John\", \"Age\":30}", contentType: "application/json");
+	curl.POST(data: "{\"Name\":\"John\", \"Age\":30}");
 
 	app.Run();
 }

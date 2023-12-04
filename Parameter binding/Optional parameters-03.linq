@@ -26,8 +26,7 @@ void Main()
 
 	curl.POST(
         url: "http://localhost:5000/products",
-        data: sampleProductJson,
-        contentType: "application/json"
+        data: sampleProductJson
     );
 
 	app.Run();

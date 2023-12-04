@@ -107,7 +107,7 @@ void Main()
 		}
 	};
 
-	curl.POST(url: "http://localhost:5000/ap/todoitems", data: System.Text.Json.JsonSerializer.Serialize(createTodoItemDto), contentType: "application/json");
+	curl.POST(url: "http://localhost:5000/ap/todoitems", data: System.Text.Json.JsonSerializer.Serialize(createTodoItemDto));
 
 	var updateTodoItemDto = new EditTodoItemRequest
 	{
@@ -119,7 +119,7 @@ void Main()
 		}
 	};
 
-	curl.PUT(url: $"http://localhost:5000/ap/todoitems/{updateTodoItemDto.Id}", data: System.Text.Json.JsonSerializer.Serialize(updateTodoItemDto), contentType: "application/json");
+	curl.PUT(url: $"http://localhost:5000/ap/todoitems/{updateTodoItemDto.Id}", data: System.Text.Json.JsonSerializer.Serialize(updateTodoItemDto));
 
 	var deleteTodoItemId = 1;
 

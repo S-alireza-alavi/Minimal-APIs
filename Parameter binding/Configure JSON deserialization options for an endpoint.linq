@@ -35,7 +35,7 @@ void Main()
 		}
 	});
 	
-	curl.POST(url: "http://localhost:5000", data: "{\"nameField\":\"Walk dog\", \"isComplete\":false}", contentType: "application/json");
+	curl.POST(url: "http://localhost:5000", data: "{\"nameField\":\"Walk dog\", \"isComplete\":false}");
 
 	app.Run();
 }
