@@ -15,10 +15,11 @@ void Main()
 
 	app.MapPost("/upload", async (IFormFile file) =>
 	{
-		var tempFile = Path.GetTempFileName();
+		file.Dump("file");
 
-		if (file.Length > 0)
+		if (file != null && file.Length > 0)
 		{
+			var tempFile = Path.GetTempFileName();
 			app.Logger.LogInformation(tempFile);
 			using var stream = File.OpenWrite(tempFile);
 			await file.CopyToAsync(stream);
@@ -29,7 +30,7 @@ void Main()
 		{
 			app.Logger.LogInformation("Empty file received");
 		}
-	});
+	}).DisableAntiforgery();
 
 	app.MapPost("/upload_many", async (IFormFileCollection myFiles) =>
 	{
@@ -52,13 +53,14 @@ void Main()
 				app.Logger.LogInformation("Empty files received");
 			}
 		}
-	});
+	}).DisableAntiforgery();
 
 	curl.GET(url: "http://localhost:5000");
 
 	var directory = Path.GetDirectoryName(Util.CurrentQueryPath);
 
 	var filePath = Path.Combine(directory, "File upload using IFormFile.txt");
+	filePath.Dump("filePath");
 	curl.POST(url: "http://localhost:5000/upload", filePaths: new List<string> { filePath });
 
 	var filePaths = new List<string> { Path.Combine(directory, "File uploads using IFormFileCollection-first.txt"),
