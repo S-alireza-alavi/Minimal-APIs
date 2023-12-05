@@ -22,7 +22,7 @@ void Main()
 			app.Logger.LogInformation(tempFile);
 			using var stream = File.OpenWrite(tempFile);
 			await file.CopyToAsync(stream);
-			
+
 			tempFile.Dump("tempFilePath");
 		}
 		else
@@ -34,17 +34,17 @@ void Main()
 	app.MapPost("/upload_many", async (IFormFileCollection myFiles) =>
 	{
 		myFiles.Dump("Files");
-		
+
 		foreach (var file in myFiles)
 		{
 			var tempFile = Path.GetTempFileName();
-			
+
 			if (file.Length > 0)
 			{
 				app.Logger.LogInformation(tempFile);
 				using var stream = File.OpenWrite(tempFile);
 				await file.CopyToAsync(stream);
-				
+
 				tempFile.Dump("tempFilesPath");
 			}
 			else
@@ -53,15 +53,15 @@ void Main()
 			}
 		}
 	});
-	
+
 	curl.GET(url: "http://localhost:5000");
 
 	var directory = Path.GetDirectoryName(Util.CurrentQueryPath);
-	
+
 	var filePath = Path.Combine(directory, "File upload using IFormFile.txt");
 	curl.POST(url: "http://localhost:5000/upload", filePaths: new List<string> { filePath });
 
-	var filePaths = new List<string> { Path.Combine(directory, "File uploads using IFormFileCollection-first.txt"), 
+	var filePaths = new List<string> { Path.Combine(directory, "File uploads using IFormFileCollection-first.txt"),
 	Path.Combine(directory, "File uploads using IFormFileCollection-second.txt") };
 	curl.POST(url: "http://localhost:5000/upload_many", filePaths: filePaths);
 
