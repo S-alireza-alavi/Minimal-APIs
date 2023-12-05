@@ -19,13 +19,10 @@ void Main()
 
 	app.MapPost("/", (Todo todo) =>
 	{
-		todo.Dump("before process");
-
 		if (todo is not null)
 		{
 			todo.Name = todo.NameField;
 		}
-		todo.Dump("let me see");
 
 		return todo.Dump("result");
 	});
