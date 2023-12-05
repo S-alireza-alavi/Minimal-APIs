@@ -7,7 +7,7 @@
 void Main()
 {
 	//Run this code to create certificates that are needed in https mode
-	//Process.Start(new ProcessStartInfo("dotnet", "dev-certs https") { CreateNoWindow = true });
+	Process.Start(new ProcessStartInfo("dotnet", "dev-certs https --trust") { CreateNoWindow = true });
 	//For more information on the development certificate, <see https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-7.0#trust/>
 	var app = WebApplication.Create();
 
