@@ -6,14 +6,18 @@
 
 void Main()
 {
-	//WebApplication.CreateBuilder initializes a new instance of the WebApplicationBuilder class with preconfigured defaults.
-	//The developer exception page is enabled in the preconfigured defaults. When the following code is run in the development environment,
+	//WebApplication.CreateBuilder initializes a new instance of the
+	//WebApplicationBuilder class with preconfigured defaults.
+	//The developer exception page is enabled in the preconfigured defaults.
+	//When the following code is run in the development environment,
 	//navigating to / renders a friendly page that shows the exception.
 	var builder = WebApplication.CreateBuilder();
 
 	var app = builder.Build();
 	
 	app.UseDeveloperExceptionPage();
+	
+	"Test on browser".Dump("result");
 
 	app.MapGet("/", () =>
 	{
