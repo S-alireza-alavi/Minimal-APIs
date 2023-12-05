@@ -15,8 +15,6 @@ void Main()
 
 	app.MapPost("/upload", async (IFormFile file) =>
 	{
-		file.Dump("file");
-
 		if (file != null && file.Length > 0)
 		{
 			var tempFile = Path.GetTempFileName();
@@ -34,8 +32,6 @@ void Main()
 
 	app.MapPost("/upload_many", async (IFormFileCollection myFiles) =>
 	{
-		myFiles.Dump("Files");
-
 		foreach (var file in myFiles)
 		{
 			var tempFile = Path.GetTempFileName();
@@ -60,7 +56,6 @@ void Main()
 	var directory = Path.GetDirectoryName(Util.CurrentQueryPath);
 
 	var filePath = Path.Combine(directory, "File upload using IFormFile.txt");
-	filePath.Dump("filePath");
 	curl.POST(url: "http://localhost:5000/upload", filePaths: new List<string> { filePath });
 
 	var filePaths = new List<string> { Path.Combine(directory, "File uploads using IFormFileCollection-first.txt"),

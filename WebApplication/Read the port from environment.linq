@@ -16,7 +16,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello World".Dump("result"));
 	
-	curl.GET(int.Parse(port));
+	curl.GET(port: int.Parse(port));
 
 	app.Run($"http://localhost:{port}".Dump("Port:"));
 }

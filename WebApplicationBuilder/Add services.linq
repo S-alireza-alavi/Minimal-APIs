@@ -18,6 +18,8 @@ void Main()
 	var app = builder.Build();
 	
 	app.Services.GetRequiredService<ITodoRepository>().DoSomething().Dump("DoSomething method execution...");
+	
+	app.Run();
 }
 
 public interface ITodoRepository

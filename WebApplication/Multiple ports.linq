@@ -18,7 +18,7 @@ void Main()
 	{
 		var uri = new Uri(url);
 		var port = uri.Port;
-		curl.GET(port);
+		curl.GET(port: port);
 	}
 
 	"I can run on both 3000 and 4000 ports!".Dump("Multiple ports running");

@@ -11,7 +11,7 @@ void Main()
 
 	app.MapGet("/", () => "Hello World!".Dump("result"));
 
-	curl.GET(3000);
+	curl.GET(port: 3000);
 
 	app.Run("http://localhost:3000".Dump("Run on 3000 port"));
 }
