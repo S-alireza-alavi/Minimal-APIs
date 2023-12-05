@@ -23,8 +23,6 @@ void Main()
 	// Seed data at the start
 	var db = app.Services.GetRequiredService<TodoDb>();
 	SeedData(db);
-	
-	var todos = db.Todos.Dump("Todos before FindAsync");
 
 	// Bind query string values to a primitive type array.
 	// GET  /tags?q=1&q=2&q=3
@@ -44,8 +42,6 @@ void Main()
 	// GET /todoitems/tags?tags=home&tags=work
 	app.MapGet("/todoitems/tags", async ([FromHeader] Tag[] tags, TodoDb dbContext) =>
 	{
-		tags.Dump("check if tags exists");
-
 		var result = await dbContext.Todos
         .Where(t => tags.Select(tag => tag.Name).Contains(t.Tag.Name))
         .ToListAsync();
@@ -118,7 +114,6 @@ void Main()
 	};
 	
 	var tagDataJson = System.Text.Json.JsonSerializer.Serialize(tagData);
-	tagDataJson.Dump("Tag data json");
 	curl.GET(url: "http://localhost:5000/todoitems/tags", headers: new Dictionary<string, string> { { "Tags", tagDataJson } });
 
 	// Test GET /todoitems/query-string-ids

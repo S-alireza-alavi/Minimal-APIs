@@ -2,6 +2,7 @@
   <Reference Relative="..\MyExtensions.Core3.dll">&lt;MyDocuments&gt;\LINQPad Queries\Minimal-APIs\MyExtensions.Core3.dll</Reference>
   <Namespace>Microsoft.AspNetCore.Builder</Namespace>
   <Namespace>Microsoft.Extensions.DependencyInjection</Namespace>
+  <Namespace>System.Text.Json</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
 
@@ -18,21 +19,30 @@ void Main()
 
 	app.MapPost("/", (Todo todo) =>
 	{
+		todo.Dump("before process");
+
 		if (todo is not null)
 		{
 			todo.Name = todo.NameField;
 		}
+		todo.Dump("let me see");
 
 		return todo.Dump("result");
 	});
 
 	var todoData = new Todo
 	{
+		Name = "Test",
 		NameField = "Walk dog",
 		IsComplete = false
 	};
+	
+	var options = new JsonSerializerOptions
+	{
+		IncludeFields = true,
+	};
 
-	var todoJson = System.Text.Json.JsonSerializer.Serialize(todoData);
+	var todoJson = System.Text.Json.JsonSerializer.Serialize(todoData, options);
 
 	curl.POST(url: "http://localhost:5000/", data: todoJson);
 
@@ -42,7 +52,7 @@ void Main()
 class Todo
 {
 	public string? Name { get; set; }
-	public string? NameField { get; set; }
+	public string? NameField;
 	public bool IsComplete { get; set; }
 }
 // If the request body contains the following JSON:

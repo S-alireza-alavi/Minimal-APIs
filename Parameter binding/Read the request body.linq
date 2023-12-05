@@ -16,18 +16,15 @@ void Main()
 
 	app.MapPost("/uploadstream", async (HttpRequest request) =>
 	{
-		var filePath = Path.Combine(storedFilesPath, Path.GetRandomFileName() + ".txt");
+		var filePath = Path.Combine(storedFilesPath, "RequestBody.txt");
 
 		await using var writeStream = File.Create(filePath);
 		await request.BodyReader.CopyToAsync(writeStream);
 		
-		await using var writer = new StreamWriter(writeStream);
-		await writer.WriteAsync("Request body data");
-		
 		filePath.Dump("Generated file path");
 	});
 	
-	curl.POST(url: "http://localhost:5000/uploadstream");
+	curl.POST(url: "http://localhost:5000/uploadstream", data: "test");
 
 	app.Run();
 }
