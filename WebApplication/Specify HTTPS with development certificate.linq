@@ -6,15 +6,17 @@
 
 void Main()
 {
-	//Run this code to create certificates that are needed in https mode
-	Process.Start(new ProcessStartInfo("dotnet", "dev-certs https --trust") { CreateNoWindow = true });
+	//Run this code to create and trust certificates that are needed in https mode
+	//Process process = Process.Start(new ProcessStartInfo("dotnet", "dev-certs https --trust") { CreateNoWindow = true});
+	//process.WaitForExit();
+
 	//For more information on the development certificate, <see https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-7.0#trust/>
 	var app = WebApplication.Create();
 
 	app.Urls.Add("https://localhost:5000");
 
 	app.MapGet("/", () => "Hello World".Dump("Run on HTTPS"));
-	
+
 	curl.GET(url: "https://localhost:5000");
 
 	app.Run();
