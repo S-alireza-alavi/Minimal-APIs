@@ -9,3 +9,4 @@ Add Middleware.linq
 Developer exception page.linq
 
 appsettingsReadConfigurationQuery.json
+Create App with WebApplication.linq
